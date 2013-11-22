@@ -1,0 +1,8 @@
+#! /usr/bin/env node
+
+var path = require("path");
+var argvParser = require("../src/argvParser.js");
+var opts = argvParser.getOpts();
+var name = opts.name;
+var func = require(path.join(__dirname, "../src/plugins", name));
+func.apply(func, opts.args);

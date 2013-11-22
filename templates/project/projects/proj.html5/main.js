@@ -6,7 +6,7 @@ cc.loadGame(function(){
         loadExtension: true,
         frameRate : 60,
         tag : "gameCanvas",
-        //test : js.[%name%].Layer_js,//单例测试，注释掉则跳转至游戏界面
+        //test : js.[%name%].MyLayer_js,//单例测试，注释掉则跳转至游戏界面
         renderMode:1       //Choose of RenderMode: 0(default), 1(Canvas only), 2(WebGL only)
     };
     document['ccConfig'] = c;
@@ -25,7 +25,7 @@ cc.loadGame(function(){
             var director = cc.Director.getInstance();
 
             var searchPaths = [];
-            searchPaths.push("../../res/");
+            searchPaths.push("../../res/Normal");
             cc.FileUtils.getInstance().setSearchPaths(searchPaths);
             //设置分辨率
             //cc.EGLView.getInstance().setDesignResolutionSize(320, 480, cc.RESOLUTION_POLICY.SHOW_ALL);

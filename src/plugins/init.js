@@ -1,10 +1,6 @@
 var fs = require("fs");
 var path = require("path");
-var url = require("url");
-var core4cc = require("../core4cc.js");
 var cfg = require("../../cfg/cfg.js");
-
-var URL_CORE_ZIP = path.join(cfg.host, cfg.port, cfg.downloads, "core.zip");
 
 /**
  * Desc: 通用格式化方法
@@ -72,6 +68,7 @@ function init(projName, opts){
     opts.name = projName;
     opts.ccDir = "node_modules/cocos2d-html5/";
     _copyFiles(tempDir, projDir, opts);
+
 };
 
 

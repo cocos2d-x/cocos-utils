@@ -40,15 +40,13 @@ cc.loadGame(function(){
             else{
                 //TODO enter point for game
                 cc.log("++++++++++++++++entry for game++++++++++++");
-                /*
-                cc.loadGameModule(js.[%name%].Layer_js, function(resArr){
+                cc.loadGameModule(js.[%name%].MyLayer_js, function(resArr){
                     cc.LoaderScene.preload(resArr, function(){
                         var scene = cc.Scene.create();
-                        scene.addChild(tt.Layer.create({}));
+                        scene.addChild(MyLayer.create({}));
                         cc.Director.getInstance().replaceScene(scene);
                     });
                 });
-                */
             }
             return true;
         }

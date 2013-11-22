@@ -1,6 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 var cfg = require("../../cfg/cfg.js");
+var genRes = require("./genRes");
 
 /**
  * Desc: 通用格式化方法
@@ -14,6 +15,10 @@ function pubFrmt(filePath, info){
     fs.writeFileSync(filePath, content);
 }
 
+function jsResFrmt(filePath, info){
+    fs.writeFileSync(filePath, 'js.' + info.name + ' = {};\r\n' + 'js.' + info.name + '.MyLayer_js = "[%name%]src/MyLayer.js"');
+}
+
 /**
  * Desc: 文件格式化工具。
  * @type {{}}
@@ -25,6 +30,7 @@ fileFrmt["resCfg.js"] = pubFrmt;
 fileFrmt["index.html"] = pubFrmt;
 fileFrmt["package.json"] = pubFrmt;
 fileFrmt["main.js"] = pubFrmt;
+fileFrmt["jsRes.js"] = jsResFrmt;
 
 /**
  * Desc: 赋值文件到指定文件夹
@@ -69,6 +75,7 @@ function init(projName, opts){
     opts.ccDir = "node_modules/cocos2d-html5/";
     _copyFiles(tempDir, projDir, opts);
 
+    genRes(projDir, {});
 };
 
 

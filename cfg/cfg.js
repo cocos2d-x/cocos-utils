@@ -5,7 +5,7 @@ module.exports = {
             "png", "jpg", "bmp", "jpeg", "gif", "mp3", "ogg", "wav", "mp4", "plist",
             "xml", "fnt", "tmx", "tsx", "ccbi", "font", "txt", "vsh", "fsh", "json"
         ],
-        dirCfgs : ["res->res"]
+        dirCfgs : ["res/Normal->res/Normal"]
     },
 
     genJsRes : {

@@ -94,6 +94,5 @@ self.getOpts = function(){
         name : funcName,
         args : args4Func
     }
-    console.log(opts4Func);
     return opts4Func;
 };

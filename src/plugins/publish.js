@@ -14,7 +14,6 @@ var jsCache = {};
 var jsIgnoreMap = {
 };
 var mergeCache4Dependencies = {};
-var cfg4Publish = require("../../cfg/cfg").publish;
 
 /**
  * Desc: 合并依赖。
@@ -226,7 +225,7 @@ function miniJs(jsArr){
         "accelerationIncludingGravity", "gamma", "beta", "alpha", "gl"
     ];
     execCode += " -r '" + rArr.join(",") + "'";
-    console.log(execCode);
+//    console.log(execCode);
     exec(execCode, function(err, data, info){
         if(err) console.error(info);
         else console.log(info);
@@ -234,12 +233,14 @@ function miniJs(jsArr){
     });
 }
 
-module.exports = function(dir, opts){
-    if(arguments.length == 1){
+module.exports = function(dir, opts, cocosCfg){
+    if(arguments.length == 2){
+        cocosCfg = opts;
         opts = dir;
         dir = process.cwd();//工程目录
     }
     projDir = dir;
+    cfg4Publish = cocosCfg.publish;
     //初始化基础目录路径
     cocosInfo = require(path.join(projDir, "package.json"));//读取cocos配置信息
     modulesDir = path.join(projDir, "node_modules/");

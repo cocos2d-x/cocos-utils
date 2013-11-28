@@ -6,13 +6,21 @@ var self = module.exports = {};
 self.TYPE_FUNC = "func";
 self.TYPE_STRING = "string";
 self.TYPE_INT = "int";
+var path = require("path");
 
 var funcMap = {
-    "new" : 1,
-    "install" : 1,
-    "publish" : 1,
-    "genJsRes" : 1,
-    "genRes" : 1
+    "new" : true,
+    "install" : true,
+    "publish" : true,
+    "genJsRes" : true,
+    "genRes" : true
+};
+
+var needToReadCfg = {
+    "install" : true,
+    "publish" : true,
+    "genJsRes" : true,
+    "genRes" : true
 };
 //const for key
 var KEY = {
@@ -38,7 +46,7 @@ self.getOpts = function(){
     var args4Func = [];
     var i = 1, li = arr.length
     for(; i < li; i++){
-        var itemi = arr[i].toLowerCase();;
+        var itemi = arr[i];
         if(cfgMap[itemi] == null) args4Func.push(itemi);
         else break;
     }
@@ -46,7 +54,7 @@ self.getOpts = function(){
     var args = [];
     var name = null;
     for(; i < li; i++){
-        var itemi = arr[i].toLowerCase();
+        var itemi = arr[i];
         if(cfgMap[itemi]){
             if(name == null && args.length > 0) throw "command error!";
             if(name == null) {//name has not been set.
@@ -65,15 +73,27 @@ self.getOpts = function(){
     if(name) opts[name] = args;//add the latest
 
     opts[KEY.TEMP_NAME] = opts[KEY.TEMP_NAME] || ["project"];
-    opts[KEY.CC_DIR] = opts[KEY.CC_DIR] || ["cocos"]
 
     opts[KEY.TEMP_NAME] = opts[KEY.TEMP_NAME][0];
-    opts[KEY.CC_DIR] = opts[KEY.CC_DIR][0];
     opts[KEY.DIR] = opts[KEY.DIR] ? opts[KEY.DIR][0] : null;
     args4Func.push(opts);
+
+    if(needToReadCfg[funcName]){//need to read cocos.json
+        var projDir = process.cwd();//the dir to run command must be the project dir.
+        try{
+            var cocosCfg = require(path.join(projDir, "cocos.json"));
+            args4Func.push(cocosCfg);
+        }catch(e){
+            var cocosCfg = require("../cfg/cocos.json");
+            args4Func.push(cocosCfg);
+        }
+    }else{
+        args4Func.push({});
+    }
     var opts4Func = {
         name : funcName,
         args : args4Func
     }
+    console.log(opts4Func);
     return opts4Func;
 };

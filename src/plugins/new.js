@@ -1,6 +1,5 @@
 var fs = require("fs");
 var path = require("path");
-var cfg = require("../../cfg/cfg.js");
 
 /**
  * Desc: 通用格式化方法
@@ -59,7 +58,7 @@ function _copyFiles(srcDir, targetDir, opts){
  * @param opts
  * @returns {*}
  */
-function init(projName, opts){
+function init(projName, opts, cocosCfg){
     var tempDir = path.join(__dirname, "../../templates/", opts.tempName + "/");
     if(!fs.existsSync(tempDir)) return console.error(tempDir + " not exists!");//if project temp exists
 
@@ -67,8 +66,8 @@ function init(projName, opts){
     //the project exists
     if(fs.existsSync(projDir)) return console.error(projDir + " exists! Can not create again!");
     fs.mkdirSync(projDir);
-    opts.name = projName;
     opts.ccDir = "node_modules/cocos2d-html5/";
+    opts.name = projName.toLowerCase();
     _copyFiles(tempDir, projDir, opts);
 
 };

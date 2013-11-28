@@ -68,12 +68,11 @@ function ResGen(dirCfgList, outputPath){
         var content = "";
         content += this.startStr + "{\r\n";
         for(var i = 0, l = _resArr.length; i < l; ++i){
-            content += "    " + _resKeyArr[i] + " : '" + this.resPre + _resArr[i] + "'";
+            content += "    " + _resKeyArr[i] + " : '" + this.resPre + _resArr[i].replace(/\\/g, "/") + "'";
             if(i < l - 1) content += ",";
             content += "\r\n";
         }
         content += "};";
-//        console.log(content);
         fs.writeFileSync(outputPath, content);
         _resArr = [];
         _resKeyArr = [];
@@ -83,3 +82,4 @@ function ResGen(dirCfgList, outputPath){
 };
 
 module.exports = ResGen;
+

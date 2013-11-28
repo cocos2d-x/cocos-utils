@@ -35,8 +35,34 @@ cocos install
 ```bash
 cocos publish
 ```
+* 当前版本还未将混淆完全做好。
 
 ## 访问发布版本
 * 确保你的工程以部署，访问projects/proj.html5/index.html
 
-* 当前版本还未将混淆完全做好。
+
+## cocos.json
+该配置文件存放了执行`cocos`一些列命令的相关配置
+* genRes--->资源文件路径配置生成器
+```script
+{
+    "output" : "cfg/res.js",//生成的js名称
+    "fileTypes" : [
+        "png", "jpg", "bmp", "jpeg", "gif", "mp3", "ogg", "wav", "mp4", "plist",
+        "xml", "fnt", "tmx", "tsx", "ccbi", "font", "txt", "vsh", "fsh", "json"
+    ],//扫描的文件类型
+    "dirCfgs" : ["res/Normal->res/Normal"]//扫描的文件夹，`->`后面为需要去除的前缀，例如： res/Normal/a.png 将会转为 a.png
+}
+```
+* genRes--->js文件路径配置生成器
+{
+    "output" : "cfg/jsRes.js",//生成的js名称
+    "fileTypes" : ["js"],//扫描的文件类型
+    "dirCfgs" : ["src", "test"]//扫描的文件夹
+}
+
+* publish--->发布配置
+{
+    "output" : "projects/proj.html5/mini.js",//mini文件路径
+    "miniCfg" : "-nm -c -d __PUBLISH=true -b "//uglifyjs压缩配置
+}

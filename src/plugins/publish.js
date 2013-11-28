@@ -184,6 +184,7 @@ function getJsArr(){
     var jsArr = [];
     jsArr.push(path.join(tempDir, "cc.js"));
     jsArr.push('[%' + projName + '%]/cfg/res.js');
+    jsArr.push('[%' + projName + '%]/projects/proj.html5/ccConfig.js');
     jsArr.push(path.join(tempDir, "resCfg4Publish.js"));
     loadResCfg("core", jsArr);//core 模块
     loadModuleBase(core4cc.getDependencies(cocosInfo.dependencies), jsArr);//当前项目依赖模块
@@ -219,7 +220,7 @@ function miniJs(jsArr){
             execCode += path.normalize(itemi) + " ";
         }
     }
-    execCode += " -o " + publishJs + " " + (cfg4Publish.miniCfg || "-m toplevel -c -d __PUBLISH=true -b ");
+    execCode += " -o " + publishJs + " " + (cfg4Publish.miniCfg || "-m toplevel -c -d __PUBLISH=true ");
     var rArr = [
         "_super", "ctor", "Inflate", "decompress", "DeviceOrientationEvent", "DeviceMotionEvent",
         "accelerationIncludingGravity", "gamma", "beta", "alpha", "gl"

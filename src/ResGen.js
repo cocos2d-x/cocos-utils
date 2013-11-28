@@ -65,18 +65,19 @@ function ResGen(dirCfgList, outputPath){
             return;
         }
 
-        var fws = fs.createWriteStream(outputPath);
-        fws.write(this.startStr + "{\r\n");
+        var content = "";
+        content += this.startStr + "{\r\n";
         for(var i = 0, l = _resArr.length; i < l; ++i){
-            fws.write("    " + _resKeyArr[i] + " : '" + this.resPre + _resArr[i] + "'");
-            if(i < l - 1) fws.write(",");
-            fws.write("\r\n");
+            content += "    " + _resKeyArr[i] + " : '" + this.resPre + _resArr[i] + "'";
+            if(i < l - 1) content += ",";
+            content += "\r\n";
         }
-        fws.write("};");
-        fws.end();
+        content += "};";
+//        console.log(content);
+        fs.writeFileSync(outputPath, content);
         _resArr = [];
         _resKeyArr = [];
-        console.log("Success!")
+        console.log("Success!---->" + outputPath);
         console.log("+++++++++++++++gen ends++++++++++++++++++");
     };
 };

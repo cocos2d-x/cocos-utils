@@ -16,7 +16,7 @@ module.exports = {
 
     publish : {
         output : "projects/proj.html5/mini.js",
-        miniCfg : "-nm -c -d __PUBLISH=true -b",
+        miniCfg : "-nm -c -d __PUBLISH=true ",
         delTemp : false
     }
 };

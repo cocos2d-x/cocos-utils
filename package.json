@@ -1,15 +1,13 @@
 {
     "name": "cocos-utils",
     "description": "Utils for cocos2d-html5",
-    "version": "0.0.9",
+    "version": "0.0.11",
     "author": {
         "name": "SmallAiTT",
         "email": "536762164@qq.com"
     },
-    "dependencies": {
-    },
-    "devDependencies": {
-    },
+    "dependencies": {},
+    "devDependencies": {},
     "keywords": [
         "CocosUtils",
         "cocos-utils",

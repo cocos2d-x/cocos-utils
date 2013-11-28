@@ -8,7 +8,8 @@ self.TYPE_STRING = "string";
 self.TYPE_INT = "int";
 
 var funcMap = {
-    "init" : 1,
+    "new" : 1,
+    "install" : 1,
     "publish" : 1,
     "genJsRes" : 1,
     "genRes" : 1

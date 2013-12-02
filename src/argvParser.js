@@ -3,9 +3,6 @@
  */
 
 var self = module.exports = {};
-self.TYPE_FUNC = "func";
-self.TYPE_STRING = "string";
-self.TYPE_INT = "int";
 var path = require("path");
 
 var funcMap = {
@@ -13,14 +10,16 @@ var funcMap = {
     "install" : true,
     "publish" : true,
     "genJsRes" : true,
-    "genRes" : true
+    "genRes" : true,
+    "genBaseJsList" : true
 };
 
 var needToReadCfg = {
     "install" : true,
     "publish" : true,
     "genJsRes" : true,
-    "genRes" : true
+    "genRes" : true,
+    "genBaseJsList" : true
 };
 //const for key
 var KEY = {

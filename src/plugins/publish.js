@@ -47,7 +47,7 @@ function createTemp(){
     jsToMergeArr.push(path.join(projDir, cfgDir, "res.js"));
 //    jsToMergeArr.push(path.join(ccDir, "core", cfgDir, "jsRes.js"));
 //    jsToMergeArr.push(path.join(ccDir, "core", cfgDir, "resCfg.js"));
-    mergeDependencies(core4cc.getDependencies(cocosInfo.dependencies), jsToMergeArr);
+    mergeDependencies(core4cc.getDependencies(packageInfo.dependencies), jsToMergeArr);
 
     jsToMergeArr.push(path.join(projDir, cfgDir, "jsRes.js"));
     jsToMergeArr.push(path.join(projDir, cfgDir, "resCfg.js"));
@@ -181,12 +181,14 @@ function loadGameModules(gameModules, jsArr){
  */
 function getJsArr(){
     var jsArr = [];
-    jsArr.push(path.join(tempDir, "cc.js"));
+//    jsArr.push(path.join(tempDir, "cc.js"));
     jsArr.push('[%' + projName + '%]/cfg/res.js');
-    jsArr.push('[%' + projName + '%]/projects/proj.html5/ccConfig.js');
+//    jsArr.push('[%' + projName + '%]/projects/proj.html5/ccConfig.js');
+
+    jsArr.push(path.join("[%cocos2d-html5%]/src/cc4publish.js"));
     jsArr.push(path.join(tempDir, "resCfg4Publish.js"));
     loadResCfg("core", jsArr);//core 模块
-    loadModuleBase(core4cc.getDependencies(cocosInfo.dependencies), jsArr);//当前项目依赖模块
+    loadModuleBase(core4cc.getDependencies(packageInfo.dependencies), jsArr);//当前项目依赖模块
     loadResCfg(projName, jsArr);//项目基本
     loadGameModules(resCfg.gameModules, jsArr);//游戏功能模块
     jsArr.push('[%' + projName + '%]/projects/proj.html5/main.js');
@@ -197,7 +199,7 @@ function getJsArr(){
  * Desc: 进行js压缩。
  * @param jsArr
  */
-function miniJs(jsArr){
+function miniJs(jsArr, cb){
     var execCode = "uglifyjs ";
     for(var i = 0, li = jsArr.length; i < li; i++){
         var itemi = jsArr[i];
@@ -210,43 +212,91 @@ function miniJs(jsArr){
             var dir = moduleName == projName ? projDir : path.join(modulesDir, moduleName);
             dir = path.normalize(dir + "/");
             var jsPath = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
-            jsPath = path.relative(projDir, jsPath);
+            jsPath = path.relative(process.cwd(), jsPath);
 //            console.log(path.normalize(jsPath));
             execCode += path.normalize(jsPath) + " "
         }else{
-            itemi = path.relative(projDir, itemi);
+            itemi = path.relative(process.cwd(), itemi);
 //            console.log(path.normalize(itemi));
             execCode += path.normalize(itemi) + " ";
         }
     }
-    execCode += " -o " + publishJs + " " + (cfg4Publish.miniCfg || "-m toplevel -c -d __PUBLISH=true ");
+//    execCode += " -o " + publishJs + " " + (cfg4Publish.miniCfg || "-m toplevel -c -d __PUBLISH=true ");
     var rArr = [
         "_super", "ctor", "Inflate", "decompress", "DeviceOrientationEvent", "DeviceMotionEvent",
         "accelerationIncludingGravity", "gamma", "beta", "alpha", "gl"
     ];
     execCode += " -r '" + rArr.join(",") + "'";
-//    console.log(execCode);
+    console.log(execCode);
     exec(execCode, function(err, data, info){
-        if(err) console.error(info);
-        else console.log(info);
-        if(cfg4Publish.delTemp) fs.rmdirSync(tempDir);
+//        console.log(data);
+        if(err) {
+            console.log("FFFDDDD")
+            return console.error(err);
+        }
+//        else console.log(info);
+        if(cb) cb();
     });
 }
 
-module.exports = function(dir, opts, cocosCfg){
+
+/**
+ * Desc: 进行js压缩。
+ * @param jsArr
+ */
+function genBuild(jsArr, cb){
+    var buildStr = fs.readFileSync(path.join(__dirname, "../temp/build.xml")).toString();
+    var jsListStr = "";
+    for(var i = 0, li = jsArr.length; i < li; i++){
+        var itemi = jsArr[i];
+        if(jsIgnoreMap[itemi]) {
+            continue;
+        }
+        var results = itemi.match(/\[\%[\w_\d\-]+\%\]/);
+        if(results && results.length > 0){
+            var moduleName = results[0].substring(2, results[0].length - 2);
+            var dir = moduleName == projName ? projDir : path.join(modulesDir, moduleName);
+            dir = path.normalize(dir + "/");
+            itemi = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
+        }else{
+        }
+        var str = path.relative(projDir, itemi);
+        jsListStr += '<file name="' + str + '"></file>\r\n';
+    }
+    buildStr = buildStr.replace(/\[\%projDir\%\]/g, projDir);
+    buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../"));
+    buildStr = buildStr.replace(/\[\%jsList\%\]/g, jsListStr);
+    buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output));
+    fs.writeFileSync(path.join(projDir, "build.xml"), buildStr);
+    exec("cd " + projDir, function(err, data, info){
+        console.log(data);
+        if(err) return console.error(err);
+        exec("ant", function(err, data, info){
+            console.log(data);
+            if(err) return console.error(err);
+            if(cb) cb();
+        });
+    });
+}
+
+
+
+
+function runPlugin(dir, opts, cocosCfg){
+    console.log("publishing...")
     if(arguments.length == 2){
         cocosCfg = opts;
         opts = dir;
         dir = process.cwd();//工程目录
     }
-    projDir = dir;
+    projDir = core4cc.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
     cfg4Publish = cocosCfg.publish;
     //初始化基础目录路径
-    cocosInfo = require(path.join(projDir, "package.json"));//读取cocos配置信息
+    packageInfo = require(path.join(projDir, "package.json"));//读取cocos配置信息
     modulesDir = path.join(projDir, "node_modules/");
     tempDir = path.join(projDir, "temp4Publish");
 
-    projName = cocosInfo.name;
+    projName = packageInfo.name;
     publishJs = path.join(projDir, cfg4Publish.output);//发布的js路径
 
     createTemp();//创建temp文件夹
@@ -255,5 +305,9 @@ module.exports = function(dir, opts, cocosCfg){
 
     var jsArr = getJsArr();//获取js列表
 
-    miniJs(jsArr);//开始混淆压缩
+    genBuild(jsArr, function(){
+        if(cfg4Publish.delTemp) core4cc.rmdirRecursive(tempDir);
+    });//开始混淆压缩
 };
+
+module.exports = runPlugin;

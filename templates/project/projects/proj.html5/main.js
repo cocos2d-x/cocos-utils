@@ -3,8 +3,8 @@ var cocos2dApp = cc.Application.extend({
     config : document["ccConfig"],
     ctor : function(){
         this._super();
-        cc.COCOS2D_DEBUG = this.config.COCOS2D_DEBUG;
-        cc.setup(this.config.tag);    //设置ID相当于
+        cc.COCOS2D_DEBUG = this.config["COCOS2D_DEBUG"];
+        cc.setup(this.config["tag"]);    //设置ID相当于
         cc.AppController.shareAppController().didFinishLaunchingWithOptions();
     },
 
@@ -19,12 +19,12 @@ var cocos2dApp = cc.Application.extend({
         //cc.EGLView.getInstance().setDesignResolutionSize(320, 480, cc.RESOLUTION_POLICY.SHOW_ALL);
 
         //打开FPS的显示
-        director.setDisplayStats(this.config.showFPS);
+        director.setDisplayStats(this.config["showFPS"]);
         //设置FPS，默认为 1.0/60
-        director.setAnimationInterval(1.0 / this.config.frameRate);
+        director.setAnimationInterval(1.0 / this.config["frameRate"]);
 
 
-        if(!__PUBLISH && this.config.test) cc.test(this.config.test);//
+        if(!__PUBLISH && this.config["test"]) cc.test(this.config["test"]);//
         else{
             //TODO enter point for game
             cc.log("++++++++++++++++entry for game++++++++++++");

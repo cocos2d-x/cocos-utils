@@ -128,3 +128,44 @@ core4cc.download = function(downLoadDir, fileUrl, cb) {
         }
     });
 };
+
+/**
+ * Desc: 递归删除文件夹。
+ * @param path
+ */
+core4cc.rmdirRecursive = function(path) {
+    var files = [];
+    if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+            var curPath = path + "/" + file;
+            if(fs.statSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
+};
+
+core4cc.mkdirRecursive = function(arr, index, cb){
+    if(index >= arr.length) cb();
+    var dir = path.join(process.cwd(), arr.slice(0, index +1).join(path.sep));
+    if(fs.existsSync(dir)) return core4cc.mkdirRecursive(arr, index+1, cb);
+    fs.mkdir(dir, function(){
+        core4cc.mkdirRecursive(arr, index+1, cb);
+    });
+}
+
+/**
+ * Desc: 判断一个路径是否是绝对路径。
+ * @param filePath
+ * @returns {boolean}
+ */
+core4cc.isAbsolute = function(filePath){
+    filePath = path.normalize(filePath);
+    if(filePath.substring(0, 1) == "/") return true;
+    if(filePath.search(/[\w]+:/) == 0) return true;
+    return false;
+};

@@ -14,9 +14,13 @@
         "dirCfgs" : ["src", "test"]
     },
 
+    "install" : {
+        "delTemp" : true
+    },
+
     "publish" : {
         "output" : "projects/proj.html5/mini.js",
         "miniCfg" : "-nm -c -d __PUBLISH=true -b ",
-        "delTemp" : false
+        "delTemp" : true
     }
 }

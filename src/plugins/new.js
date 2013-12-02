@@ -6,11 +6,12 @@ var path = require("path");
  * @param filePath
  * @param info
  */
-function pubFrmt(filePath, info){
+function pubFrmt(filePath, info, cb){
     var content = fs.readFileSync(filePath).toString();
     content = content.replace(/\[\%name\%\]/g, info.name);
     content = content.replace(/\[\%ccDir\%\]/g, info.ccDir);
     fs.writeFileSync(filePath, content);
+    if(cb) cb();
 }
 
 /**
@@ -58,7 +59,7 @@ function _copyFiles(srcDir, targetDir, opts){
  * @param opts
  * @returns {*}
  */
-function init(projName, opts, cocosCfg){
+function runPlugin(projName, opts, cocosCfg){
     var tempDir = path.join(__dirname, "../../templates/", opts.tempName + "/");
     if(!fs.existsSync(tempDir)) return console.error(tempDir + " not exists!");//if project temp exists
 
@@ -70,7 +71,8 @@ function init(projName, opts, cocosCfg){
     opts.name = projName.toLowerCase();
     _copyFiles(tempDir, projDir, opts);
 
+    console.log("Success!");
 };
 
 
-module.exports = init;
+module.exports = runPlugin;

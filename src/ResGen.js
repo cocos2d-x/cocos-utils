@@ -42,12 +42,12 @@ function ResGen(dirCfgList, outputPath){
     };
 
     this.gen = function(){
-        console.log("|---------------------------------------|");
-        console.log("|        ResGen                         |");
-        console.log("|        Author: Zheng.Xiaojun          |");
-        console.log("|        Version: 1.0.0                 |");
-        console.log("|---------------------------------------|");
-        console.log("+++++++++++++++gen starts++++++++++++++++");
+//        console.log("|---------------------------------------|");
+//        console.log("|        ResGen                         |");
+//        console.log("|        Author: Zheng.Xiaojun          |");
+//        console.log("|        Version: 1.0.0                 |");
+//        console.log("|---------------------------------------|");
+//        console.log("+++++++++++++++gen starts++++++++++++++++");
         for(var i = 0, l = _dirCfgList.length; i < l; ++i){
             var cfg = _dirCfgList[i];
             var dir = cfg, pre = "";
@@ -77,7 +77,7 @@ function ResGen(dirCfgList, outputPath){
         _resArr = [];
         _resKeyArr = [];
         console.log("Success!---->" + outputPath);
-        console.log("+++++++++++++++gen ends++++++++++++++++++");
+//        console.log("+++++++++++++++gen ends++++++++++++++++++");
     };
 };
 

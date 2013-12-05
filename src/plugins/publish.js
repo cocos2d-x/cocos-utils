@@ -6,6 +6,8 @@ var path = require("path");
 var core4cc = require("./../core4cc.js");
 var exec = require('child_process').exec;
 var fs = require("fs");
+//var delCode = require("../delCode");
+
 var cfgDir = "cfg";
 var coreName = "cocos2d-html5";
 var projName, projDir, modulesDir, tempDir, resCfg, publishJs;
@@ -183,7 +185,7 @@ function getJsArr(){
     var jsArr = [];
 //    jsArr.push(path.join(tempDir, "cc.js"));
     jsArr.push('[%' + projName + '%]/cfg/res.js');
-//    jsArr.push('[%' + projName + '%]/projects/proj.html5/ccConfig.js');
+//    jsArr.push('[%' + projName + '%]/projects/proj.html5/cocos2d.js');
 
     jsArr.push(path.join("[%cocos2d-html5%]/src/cc4publish.js"));
     jsArr.push(path.join(tempDir, "resCfg4Publish.js"));
@@ -260,6 +262,7 @@ function genBuild(jsArr, cb){
             itemi = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
         }else{
         }
+//        delCode(path.normalize(itemi));
         var str = path.relative(projDir, itemi);
         jsListStr += '<file name="' + str + '"></file>\r\n';
     }
@@ -267,15 +270,17 @@ function genBuild(jsArr, cb){
     buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../"));
     buildStr = buildStr.replace(/\[\%jsList\%\]/g, jsListStr);
     buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output));
-    fs.writeFileSync(path.join(projDir, "build.xml"), buildStr);
-    exec("cd " + projDir, function(err, data, info){
+    var buildXmlPath = path.join(projDir, "projects/proj.html5/build.xml");
+    fs.writeFileSync(buildXmlPath, buildStr);
+    console.log(path.dirname(buildXmlPath))
+    exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){
         console.log(data);
         if(err) return console.error(err);
-        exec("ant", function(err, data, info){
-            console.log(data);
-            if(err) return console.error(err);
-            if(cb) cb();
-        });
+//        exec("ant " + buildXmlPath, function(err, data, info){
+//            console.log(data);
+//            if(err) return console.error(err);
+//            if(cb) cb();
+//        });
     });
 }
 
@@ -298,6 +303,7 @@ function runPlugin(dir, opts, cocosCfg){
 
     projName = packageInfo.name;
     publishJs = path.join(projDir, cfg4Publish.output);//发布的js路径
+    if(fs.existsSync(publishJs)) fs.unlinkSync(publishJs);
 
     createTemp();//创建temp文件夹
     resCfg = require(path.join(tempDir, "resCfg.js"));//获取整合后的资源配置

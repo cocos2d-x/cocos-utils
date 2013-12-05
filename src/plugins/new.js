@@ -26,7 +26,7 @@ fileFrmt["index.html"] = pubFrmt;
 fileFrmt["package.json"] = pubFrmt;
 fileFrmt["main.js"] = pubFrmt;
 fileFrmt["jsRes.js"] = pubFrmt;
-fileFrmt["ccConfig.js"] = pubFrmt;
+fileFrmt["cocos2d.js"] = pubFrmt;
 
 /**
  * Desc: 赋值文件到指定文件夹

@@ -24,12 +24,14 @@ var needToReadCfg = {
 //const for key
 var KEY = {
     TEMP_NAME : "tempName",
-    DIR : "dir"
+    DIR : "dir",
+    FULL : "full"
 }
 //config map
 var cfgMap = {
     "-dir" : {name : KEY.DIR},
-    "-tn" : {name : KEY.TEMP_NAME}
+    "-tn" : {name : KEY.TEMP_NAME},
+    "-full" : {name : KEY.FULL}
 };
 
 /**

@@ -264,7 +264,7 @@ function genBuild(jsArr, cb){
         }
 //        delCode(path.normalize(itemi));
         var str = path.relative(projDir, itemi);
-        jsListStr += '<file name="' + str + '"></file>\r\n';
+        jsListStr += '<file name="' + str + '"></file>\r\n                ';
     }
     buildStr = buildStr.replace(/\[\%projDir\%\]/g, projDir);
     buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../"));
@@ -272,15 +272,9 @@ function genBuild(jsArr, cb){
     buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output));
     var buildXmlPath = path.join(projDir, "projects/proj.html5/build.xml");
     fs.writeFileSync(buildXmlPath, buildStr);
-    console.log(path.dirname(buildXmlPath))
     exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){
         console.log(data);
         if(err) return console.error(err);
-//        exec("ant " + buildXmlPath, function(err, data, info){
-//            console.log(data);
-//            if(err) return console.error(err);
-//            if(cb) cb();
-//        });
     });
 }
 

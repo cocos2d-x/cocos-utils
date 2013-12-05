@@ -28,11 +28,9 @@ var cocos2dApp = cc.Application.extend({
         else{
             //TODO enter point for game
             cc.log("++++++++++++++++entry for game++++++++++++");
-            cc.loadGameModule(js.[%name%].MyLayer_js, function(resArr){
+            cc.loadGameModule(js.[%name%].myApp_js, function(resArr){
                 cc.LoaderScene.preload(resArr, function(){
-                    var scene = cc.Scene.create();
-                    scene.addChild(MyLayer.create({}));
-                    cc.Director.getInstance().replaceScene(scene);
+                    cc.Director.getInstance().replaceScene(new MyScene());
                 });
             });
         }

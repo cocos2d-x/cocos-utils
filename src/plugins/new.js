@@ -14,6 +14,30 @@ function pubFrmt(filePath, info, cb){
     if(cb) cb();
 }
 
+function packageFrmt(filePath, info, cb){
+    var content = fs.readFileSync(filePath).toString();
+    content = content.replace(/\[\%name\%\]/g, info.name);
+    var fullDepArr = [
+        "cocos2d-html5", "ccaction3d", "ccanimation", "ccbase64toimg", "ccbox2d", "ccchipmunk", "cccliping",
+        "cceditbox", "cceffects", "ccinput", "cclabelbmfont", "ccmotionstreak", "ccnotificationcenter", "ccparallax",
+        "ccparticle", "ccphysics", "ccpluginx", "ccscrollview", "cctgalib", "cctilemap", "cctransition",
+        "ccuserdefault", "ccziputils", "cocosbuilder", "cocosdenshion", "cocoslog", "cocostudio"
+    ];
+    var dependenciesStr = '"cocos2d-html5" : "*"';
+    if(info.full != null){
+        dependenciesStr = "";
+        for(var i = 0, li = fullDepArr.length; i < li; ++i){
+            dependenciesStr += '"' + fullDepArr[i] + '" : "*"';
+            if(i < li - 1) dependenciesStr += ",\r\n";
+            else dependenciesStr += "\r\n";
+            dependenciesStr += "        ";
+        }
+    }
+    content = content.replace(/\[\%dependencies\%\]/g, dependenciesStr);
+    fs.writeFileSync(filePath, content);
+    if(cb) cb();
+}
+
 /**
  * Desc: 文件格式化工具。
  * @type {{}}
@@ -23,10 +47,12 @@ fileFrmt["index.html"] = pubFrmt;
 fileFrmt["release.html"] = pubFrmt;
 fileFrmt["resCfg.js"] = pubFrmt;
 fileFrmt["index.html"] = pubFrmt;
-fileFrmt["package.json"] = pubFrmt;
 fileFrmt["main.js"] = pubFrmt;
 fileFrmt["jsRes.js"] = pubFrmt;
 fileFrmt["cocos2d.js"] = pubFrmt;
+
+
+fileFrmt["package.json"] = packageFrmt;
 
 /**
  * Desc: 赋值文件到指定文件夹

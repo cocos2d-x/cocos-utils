@@ -2,6 +2,6 @@
     "name" : "[%name%]",
     "version" : "1.0.0",
     "dependencies" : {
-        "cocos2d-html5" : "*"
+        [%dependencies%]
     }
 }

@@ -6,7 +6,7 @@ var path = require("path");
 var core4cc = require("./../core4cc.js");
 var exec = require('child_process').exec;
 var fs = require("fs");
-//var delCode = require("../delCode");
+var delCode = require("../delCode");
 
 var cfgDir = "cfg";
 var coreName = "cocos2d-html5";
@@ -247,6 +247,9 @@ function miniJs(jsArr, cb){
  * @param jsArr
  */
 function genBuild(jsArr, cb){
+    var buildDir = path.join(tempDir, "build");
+    if(fs.existsSync(buildDir)) core4cc.rmdirRecursive(buildDir);
+    fs.mkdirSync(buildDir);
     var buildStr = fs.readFileSync(path.join(__dirname, "../temp/build.xml")).toString();
     var jsListStr = "";
     for(var i = 0, li = jsArr.length; i < li; i++){
@@ -255,14 +258,17 @@ function genBuild(jsArr, cb){
             continue;
         }
         var results = itemi.match(/\[\%[\w_\d\-]+\%\]/);
+        var moduleName = "_";
         if(results && results.length > 0){
-            var moduleName = results[0].substring(2, results[0].length - 2);
+            moduleName = results[0].substring(2, results[0].length - 2);
             var dir = moduleName == projName ? projDir : path.join(modulesDir, moduleName);
             dir = path.normalize(dir + "/");
             itemi = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
         }else{
         }
-//        delCode(path.normalize(itemi));
+        var tempFile = path.join(buildDir , moduleName + "_" + path.basename(itemi));
+        delCode(path.normalize(itemi), tempFile);
+        itemi = tempFile;
         var str = path.relative(projDir, itemi);
         jsListStr += '<file name="' + str + '"></file>\r\n                ';
     }
@@ -275,6 +281,7 @@ function genBuild(jsArr, cb){
     exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){
         console.log(data);
         if(err) return console.error(err);
+        cb(err);
     });
 }
 
@@ -305,7 +312,7 @@ function runPlugin(dir, opts, cocosCfg){
 
     var jsArr = getJsArr();//获取js列表
 
-    genBuild(jsArr, function(){
+    genBuild(jsArr, function(err){
         if(cfg4Publish.delTemp) core4cc.rmdirRecursive(tempDir);
     });//开始混淆压缩
 };

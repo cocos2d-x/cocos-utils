@@ -140,7 +140,7 @@ core4cc.rmdirRecursive = function(path) {
         files.forEach(function(file,index){
             var curPath = path + "/" + file;
             if(fs.statSync(curPath).isDirectory()) { // recurse
-                deleteFolderRecursive(curPath);
+                core4cc.rmdirRecursive(curPath);
             } else { // delete file
                 fs.unlinkSync(curPath);
             }

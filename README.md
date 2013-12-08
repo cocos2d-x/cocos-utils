@@ -52,7 +52,7 @@ cocos publish
 ## cocos.json
 该配置文件存放了执行`cocos`一些列命令的相关配置
 * genRes--->资源文件路径配置生成器
-```json
+```js
 {
     "output" : "cfg/res.js",//生成的js名称
     "fileTypes" : [

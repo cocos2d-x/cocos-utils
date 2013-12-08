@@ -9,12 +9,12 @@ A tool to help developers coding cocos2d-html5 easily.
 ## 安装
 * 安装`nodejs`，该步骤省略。
 * 执行命令：
-```bash
+```
 npm install cocos-utils -g
 ```
 
 ## 创建cocos2d-html5项目
-`cd`到工程所要存放的目录下（一般来说是在服务器的目录中），例如想建工程名为`HelloWorld`的项目，执行以下命令：
+`cd`到工程所要存放的目录下（一般来说是在服务器的目录中），例如想建工程名为`helloworld`的项目，执行以下命令：
 ```bash
 cd the/dir/you/want/to/put/your/project/
 cocos new helloworld
@@ -24,7 +24,7 @@ cocos install
 ```
 
 ## 访问开发版本
-* 确保你的工程已部署，访问projects/proj.html5/index.html
+* 确保你的工程已部署，访问`projects/proj.html5/index.html`
 
 ## 发布
 在`helloworld`文件夹下执行：
@@ -33,7 +33,7 @@ cocos publish
 ```
 
 ## 访问发布版本
-* 确保你的工程以部署，访问projects/proj.html5/index.html
+* 确保你的工程以部署，访问projects/proj.html5/release.html
 
 ## 命令说明
 ### cocos new project
@@ -52,7 +52,7 @@ cocos publish
 ## cocos.json
 该配置文件存放了执行`cocos`一些列命令的相关配置
 * genRes--->资源文件路径配置生成器
-```script
+```json
 {
     "output" : "cfg/res.js",//生成的js名称
     "fileTypes" : [

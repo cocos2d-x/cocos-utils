@@ -86,10 +86,10 @@ cocos publish
 
 ## 工程结构
 * helloworld
-** cfg
-** res
-** src
-** test
-** projects
-** cocos.json
-** package.json
+> cfg
+> res
+> src
+> test
+> projects
+> cocos.json
+> package.json

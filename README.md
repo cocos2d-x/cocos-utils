@@ -53,7 +53,7 @@ cocos publish
 该配置文件存放了执行`cocos`一些列命令的相关配置
 * genRes--->资源文件路径配置生成器
 ```js
-{
+var cfg = {
     "output" : "cfg/res.js",//生成的js名称
     "fileTypes" : [
         "png", "jpg", "bmp", "jpeg", "gif", "mp3", "ogg", "wav", "mp4", "plist",

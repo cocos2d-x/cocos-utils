@@ -85,11 +85,26 @@ cocos publish
 ```
 
 ## 工程结构
-* helloworld
-> cfg
-> res
-> src
-> test
-> projects
-> cocos.json
-> package.json
+```script
+- helloworld
+    - cfg
+        - res.js (资源文件路径的映射文件，通过cocos genRes生成)
+        - jsRes.js (js文件路径的映射文件，通过cocos genJsRes生成)
+        - resCfg.js (项目资源依赖配置)
+    - res (资源根路径)
+        -Normal (普通版本资源)
+        -HD (高清版本资源)
+    - src (工程代码)
+    - test  (测试代码)
+    - projects  (项目发布的地方)
+        - proj.html5
+            - cocos2d.js (Game启动配置)
+            - main.js (Game启动入口)
+            - baseJsList.js (基础的js列表)
+            - index.html (开发是的访问地址)
+            - mini.js (执行cocos publish后生成)
+            - build.xml (执行cocos publish后生成，进行混淆压缩时是用的)
+            - release.html (混淆压缩版本的访问地址)
+    - cocos.json (对应cocos命令的各种相关配置)
+    - package.json
+```

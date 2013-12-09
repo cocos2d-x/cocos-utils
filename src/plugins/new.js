@@ -46,7 +46,6 @@ var fileFrmt = {};
 fileFrmt["index.html"] = pubFrmt;
 fileFrmt["release.html"] = pubFrmt;
 fileFrmt["resCfg.js"] = pubFrmt;
-fileFrmt["index.html"] = pubFrmt;
 fileFrmt["main.js"] = pubFrmt;
 fileFrmt["jsRes.js"] = pubFrmt;
 fileFrmt["cocos2d.js"] = pubFrmt;

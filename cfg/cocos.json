@@ -20,7 +20,7 @@
 
     "publish" : {
         "output" : "projects/proj.html5/mini.js",
-        "miniCfg" : "-nm -c -d __PUBLISH=true -b ",
+        "delLog" : false,
         "delTemp" : true
     }
 }

@@ -5,33 +5,78 @@
 var self = module.exports = {};
 var path = require("path");
 
-var funcMap = {
-    "new" : true,
-    "install" : true,
-    "publish" : true,
-    "genJsRes" : true,
-    "genRes" : true,
-    "genBaseJsList" : true
-};
-
-var needToReadCfg = {
-    "install" : true,
-    "publish" : true,
-    "genJsRes" : true,
-    "genRes" : true,
-    "genBaseJsList" : true
-};
 //const for key
-var KEY = {
+var CONSTS = {
+    F_NEW : "new",
+    F_INSTALL : "install",
+    F_PUBLISH : "publish",
+    F_GEN_RES : "genRes",
+    F_GEN_JS_RES : "genJsRes",
+    F_GEN_BASE_JS_LIST : "genBaseJsList",
+
+    C_DIR : "-dir",
+    C_TN : "-tn",
+    C_FULL : "-full",
+
     TEMP_NAME : "tempName",
     DIR : "dir",
     FULL : "full"
 }
+var funcMap = {};
+funcMap[CONSTS.F_NEW] = true;
+funcMap[CONSTS.F_INSTALL] = true;
+funcMap[CONSTS.F_PUBLISH] = true;
+funcMap[CONSTS.F_GEN_RES] = true;
+funcMap[CONSTS.F_GEN_JS_RES] = true;
+funcMap[CONSTS.F_GEN_BASE_JS_LIST] = true;
+
+var needToReadCfg = {};
+needToReadCfg[CONSTS.F_INSTALL] = true;
+needToReadCfg[CONSTS.F_PUBLISH] = true;
+needToReadCfg[CONSTS.F_GEN_RES] = true;
+needToReadCfg[CONSTS.F_GEN_JS_RES] = true;
+needToReadCfg[CONSTS.F_GEN_BASE_JS_LIST] = true;
+
 //config map
-var cfgMap = {
-    "-dir" : {name : KEY.DIR},
-    "-tn" : {name : KEY.TEMP_NAME},
-    "-full" : {name : KEY.FULL}
+var cfgMap = {};
+cfgMap[CONSTS.C_DIR] = {name : CONSTS.DIR};
+cfgMap[CONSTS.C_TN] = {name : CONSTS.TEMP_NAME};
+cfgMap[CONSTS.C_FULL] = {name : CONSTS.FULL};
+
+function validLength(command, value, args){
+    if(args.l == null) return null;
+    var l = value.length;
+    if(typeof args.l == "number"){
+        if(l != args.l) return "length of arguments for " + command + "should be " + args.l;
+        return null;
+    }
+    var lArr = args.l.split(",");
+    if(lArr.length == 0){
+        if(l != lArr[0]) return "length of arguments for " + command + "should be " + lArr[0];
+        return null;
+    }else if(lArr.length > 1){
+        if(l < lArr[0] || l > lArr[1]) return "length of arguments for " + command + "should be [" + lArr[0] + "," + lArr[1] + "]";
+    }
+    return null;
+};
+
+var cfgValid = {};
+cfgValid[CONSTS.F_NEW] = {func : validLength, args : {l : 1}};
+cfgValid[CONSTS.F_INSTALL] = {func : validLength, args : {l : "0,1"}};
+cfgValid[CONSTS.F_PUBLISH] = {func : validLength, args : {l : "0,1"}};
+cfgValid[CONSTS.F_GEN_RES] = {func : validLength, args : {l : "0,1"}};
+cfgValid[CONSTS.F_GEN_JS_RES] = {func : validLength, args : {l : "0,1"}};
+cfgValid[CONSTS.F_GEN_BASE_JS_LIST] = {func : validLength, args : {l : "0,1"}};
+
+cfgValid[CONSTS.DIR] = {func : validLength, args : {l : 1}};
+cfgValid[CONSTS.TEMP_NAME] = {func : validLength, args : {l : 1}};
+cfgValid[CONSTS.FULL] = {func : validLength, args : {l : 0}};
+
+function valid(command, value){
+    var cv = cfgValid[command];
+    if(!cv) return null;
+    var result = cv.func(command, value, cv.args);
+    if(result) throw result;
 };
 
 /**
@@ -51,6 +96,8 @@ self.getOpts = function(){
         if(cfgMap[itemi] == null) args4Func.push(itemi);
         else break;
     }
+
+    valid(funcName, args4Func);
     var opts = {};
     var args = [];
     var name = null;
@@ -62,6 +109,7 @@ self.getOpts = function(){
                 name = cfgMap[itemi].name;
                 continue;
             }
+            valid(name, args);
             opts[name] = args;
             name = cfgMap[itemi].name;
             args = [];
@@ -71,12 +119,13 @@ self.getOpts = function(){
         }
     }
 
+    valid(name, args);
     if(name) opts[name] = args;//add the latest
 
-    opts[KEY.TEMP_NAME] = opts[KEY.TEMP_NAME] || ["project"];
+    opts[CONSTS.TEMP_NAME] = opts[CONSTS.TEMP_NAME] || ["project"];
 
-    opts[KEY.TEMP_NAME] = opts[KEY.TEMP_NAME][0];
-    opts[KEY.DIR] = opts[KEY.DIR] ? opts[KEY.DIR][0] : null;
+    opts[CONSTS.TEMP_NAME] = opts[CONSTS.TEMP_NAME][0];
+    opts[CONSTS.DIR] = opts[CONSTS.DIR] ? opts[CONSTS.DIR][0] : null;
     args4Func.push(opts);
 
     if(needToReadCfg[funcName]){//need to read cocos.json

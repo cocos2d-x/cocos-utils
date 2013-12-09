@@ -11,7 +11,6 @@ var delCode = require("../delCode");
 var cfgDir = "cfg";
 var coreName = "cocos2d-html5";
 var projName, projDir, modulesDir, tempDir, resCfg, publishJs;
-var cocosInfo = {};
 var jsCache = {};
 var jsIgnoreMap = {
 };
@@ -197,50 +196,6 @@ function getJsArr(){
     return jsArr;
 };
 
-/**
- * Desc: 进行js压缩。
- * @param jsArr
- */
-function miniJs(jsArr, cb){
-    var execCode = "uglifyjs ";
-    for(var i = 0, li = jsArr.length; i < li; i++){
-        var itemi = jsArr[i];
-        if(jsIgnoreMap[itemi]) {
-            continue;
-        }
-        var results = itemi.match(/\[\%[\w_\d\-]+\%\]/);
-        if(results && results.length > 0){
-            var moduleName = results[0].substring(2, results[0].length - 2);
-            var dir = moduleName == projName ? projDir : path.join(modulesDir, moduleName);
-            dir = path.normalize(dir + "/");
-            var jsPath = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
-            jsPath = path.relative(process.cwd(), jsPath);
-//            console.log(path.normalize(jsPath));
-            execCode += path.normalize(jsPath) + " "
-        }else{
-            itemi = path.relative(process.cwd(), itemi);
-//            console.log(path.normalize(itemi));
-            execCode += path.normalize(itemi) + " ";
-        }
-    }
-//    execCode += " -o " + publishJs + " " + (cfg4Publish.miniCfg || "-m toplevel -c -d __PUBLISH=true ");
-    var rArr = [
-        "_super", "ctor", "Inflate", "decompress", "DeviceOrientationEvent", "DeviceMotionEvent",
-        "accelerationIncludingGravity", "gamma", "beta", "alpha", "gl"
-    ];
-    execCode += " -r '" + rArr.join(",") + "'";
-    console.log(execCode);
-    exec(execCode, function(err, data, info){
-//        console.log(data);
-        if(err) {
-            console.log("FFFDDDD")
-            return console.error(err);
-        }
-//        else console.log(info);
-        if(cb) cb();
-    });
-}
-
 
 /**
  * Desc: 进行js压缩。
@@ -266,16 +221,18 @@ function genBuild(jsArr, cb){
             itemi = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
         }else{
         }
-        var tempFile = path.join(buildDir , moduleName + "_" + path.basename(itemi));
-        delCode(path.normalize(itemi), tempFile);
-        itemi = tempFile;
-        var str = path.relative(projDir, itemi);
+        if(cfg4Publish.delLog){
+            var tempFile = path.join(buildDir , moduleName + "_" + path.basename(itemi));
+            delCode(path.normalize(itemi), tempFile);
+            itemi = tempFile;
+        }
+        var str = path.relative(projDir, itemi).replace(/\\/g, "/");
         jsListStr += '<file name="' + str + '"></file>\r\n                ';
     }
-    buildStr = buildStr.replace(/\[\%projDir\%\]/g, projDir);
-    buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../"));
-    buildStr = buildStr.replace(/\[\%jsList\%\]/g, jsListStr);
-    buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output));
+    buildStr = buildStr.replace(/\[\%projDir\%\]/g, projDir.replace(/\\/g, "/"));
+    buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../").replace(/\\/g, "/"));
+    buildStr = buildStr.replace(/\[\%jsList\%\]/g, jsListStr.replace(/\\/g, "/"));
+    buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output).replace(/\\/g, "/"));
     var buildXmlPath = path.join(projDir, "projects/proj.html5/build.xml");
     fs.writeFileSync(buildXmlPath, buildStr);
     exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){

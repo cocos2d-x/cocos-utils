@@ -16,9 +16,6 @@ function _delBlank(content, startIndex){
     var l = content.length;
     if(startIndex >= l) return l
     var index = content.substring(startIndex).search(/\S/);
-    if(index < 0){
-        console.log(content.substring(startIndex));
-    }
     return index < 0 ? l : startIndex + index;
 };
 /**

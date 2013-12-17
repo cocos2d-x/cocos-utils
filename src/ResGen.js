@@ -1,6 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 var core4cc = require("./core4cc");
+var msgCode = require("../cfg/msgCode");
 
 function ResGen(dirCfgList, outputPath){
     var _dirCfgList = dirCfgList || [];
@@ -15,15 +16,8 @@ function ResGen(dirCfgList, outputPath){
     this.resPre = "";;
 
     this._walkDir = function(dir, pre){
-        if(!fs.existsSync(dir)) {
-            console.log(dir + "    not exists!")
-            return;
-        }
-        stats = fs.statSync(dir);
-        if(!stats.isDirectory()) {
-            console.log(dir + "    is not a directory!")
-            return;
-        }
+        core4cc.assert(fs.existsSync(dir), msgCode.PATH_NOT_EXISTS, {dir : dir});
+        core4cc.assert(fs.statSync(dir).isDirectory(), msgCode.NOT_A_DIR, {dir : dir});
         var dirList = fs.readdirSync(dir);
         for(var i = 0, l = dirList.length; i < l; ++i){
             var item = dirList[i];
@@ -60,10 +54,7 @@ function ResGen(dirCfgList, outputPath){
         }
 
         var outputPath = path.join(this.projDir, _outputPath);
-        if(!fs.existsSync(outputPath)){
-            console.log(outputPath + "    not exists!");
-            return;
-        }
+        if(!fs.existsSync(outputPath)) return core4cc.warn(msgCode.PATH_NOT_EXISTS, {path : outputPath})
 
         var content = "";
         content += this.startStr + "{\r\n";
@@ -76,7 +67,7 @@ function ResGen(dirCfgList, outputPath){
         fs.writeFileSync(outputPath, content);
         _resArr = [];
         _resKeyArr = [];
-        console.log("Success!---->" + outputPath);
+        core4cc.log(msgCode.SUCCESS_PATH, {path : outputPath});
 //        console.log("+++++++++++++++gen ends++++++++++++++++++");
     };
 };

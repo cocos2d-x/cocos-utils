@@ -1,6 +1,10 @@
 #! /usr/bin/env node
 
 var path = require("path");
+process.on('uncaughtException', function(err){
+    console.error(err);
+});
+
 var argvParser = require("../src/argvParser.js");
 var opts = argvParser.getOpts();
 var name = opts.name;

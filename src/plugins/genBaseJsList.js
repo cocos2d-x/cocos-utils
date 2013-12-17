@@ -1,11 +1,12 @@
 var path = require("path");
 var core4cc = require("../core4cc");
 var fs = require("fs");
+var msgCode = require("../../cfg/msgCode");
 
-var coreName = "cocos2d-html5", cfgDir = "cfg/", mergeCache4Dependencies = {}, sortArr;
+var cfgDir = "cfg/", mergeCache4Dependencies = {}, sortArr;
 
 /**
- * Desc: 合并依赖。
+ * Desc: merge base js list of dependencies to a single one.
  * @param modulesDir
  * @param dependencies
  * @param jsToMergeArr
@@ -25,10 +26,10 @@ function mergeDependencies(dependencies, jsToMergeArr){
 }
 
 /**
- * Desc: 创建temp文件夹以及temp内容。
+ * Desc: Create temp dir.
  */
 function createTemp(){
-    if(!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);//创建temp目录
+    if(!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);//create dir
 
     var jsToMergeArr = [];
     jsToMergeArr.push(path.join(projDir, cfgDir, "res.js"));
@@ -39,8 +40,14 @@ function createTemp(){
     core4cc.merge2Module(jsToMergeArr, path.join(tempDir, "resCfg.js"), [], "resCfg");
 };
 
+/**
+ * Desc: Run plugin.
+ * @param dir
+ * @param opts
+ * @param cocosCfg
+ */
 function runPlugin(dir, opts, cocosCfg){
-    console.log("baseJsList generating...");
+    core4cc.log(msgCode.GENERATING, {target : "baseJsList"});
     if(arguments.length == 2){
         cocosCfg = opts;
         opts = dir;
@@ -80,7 +87,7 @@ function runPlugin(dir, opts, cocosCfg){
     baseJsListContent += "];";
     var path4BaseJsList = path.join(projDir, "projects/proj.html5/baseJsList.js");
     fs.writeFileSync(path4BaseJsList, baseJsListContent);
-    console.log("Success!---->", path4BaseJsList);
+    core4cc.log(msgCode.SUCCESS_PATH, {path : path4BaseJsList});
     if(cocosCfg.install.delTemp) core4cc.rmdirRecursive(tempDir);
 };
 module.exports = runPlugin;

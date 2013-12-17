@@ -1,9 +1,10 @@
 var path = require("path");
 var ResGen = require("../ResGen");
 var core4cc = require("../core4cc");
+var msgCode = require("../../cfg/msgCode");
 
 function runPlugin(projDir, opts, cocosCfg){
-    console.log("jsRes generating...");
+    core4cc.log(msgCode.GENERATING, {target : "jsRes"});
     if(arguments.length == 2){
         cocosCfg = opts;
         opts = projDir;

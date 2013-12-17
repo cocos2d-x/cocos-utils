@@ -11,6 +11,7 @@ var path = require("path");
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var url = require('url');
+var msgCode = require("../cfg/msgCode");
 
 var core4cc = {};
 module.exports = core4cc;
@@ -58,19 +59,19 @@ core4cc.merge2Module = function(srcs, target, requireArr, name){
 };
 
 /**
- * dESC:根据文件名称将其转换为响应的key名称。
+ * dESC: Get key name by the file name.
  * @param name
  * @returns {String}
  */
 core4cc.getKeyName = function(name){
     var key = name.replace(/[.]/g, "_");
-    key = key.replace(/[\-]/g, "_");
+    key = key.replace(/[\-\(\)]/g, "_");
     var r = key.match(/^[0-9]/);
     if(r != null) key = "_" + key;
     return key;
 };
 /**
- * Desc: 返回依赖数组
+ * Desc: Returns array for dependencies.
  * @param temp
  * @returns {Array}
  * @private
@@ -84,7 +85,7 @@ core4cc.getDependencies = function(temp){
 };
 
 /**
- * Desc: 解压缩
+ * Desc: unzip
  * @param srcZip
  * @param targetDir
  * @param cb
@@ -100,7 +101,7 @@ core4cc.unzip = function(srcZip, targetDir, cb){
 
 
 /**
- * Desc: 下载。
+ * Desc: Download resources.
  * @param downLoadDir
  * @param fileUrl
  * @param cb
@@ -130,7 +131,7 @@ core4cc.download = function(downLoadDir, fileUrl, cb) {
 };
 
 /**
- * Desc: 递归删除文件夹。
+ * Desc: Remove dir recursively.
  * @param path
  */
 core4cc.rmdirRecursive = function(path) {
@@ -149,6 +150,13 @@ core4cc.rmdirRecursive = function(path) {
     }
 };
 
+/**
+ * Desc: Create dir recursively.
+ * @param arr
+ * @param index
+ * @param cb
+ * @returns {*}
+ */
 core4cc.mkdirRecursive = function(arr, index, cb){
     if(index >= arr.length) cb();
     var dir = path.join(process.cwd(), arr.slice(0, index +1).join(path.sep));
@@ -159,7 +167,7 @@ core4cc.mkdirRecursive = function(arr, index, cb){
 }
 
 /**
- * Desc: 判断一个路径是否是绝对路径。
+ * Desc: Returns true if the filePath is absolute.
  * @param filePath
  * @returns {boolean}
  */
@@ -168,4 +176,44 @@ core4cc.isAbsolute = function(filePath){
     if(filePath.substring(0, 1) == "/") return true;
     if(filePath.search(/[\w]+:/) == 0) return true;
     return false;
+};
+
+/**
+ * Desc: if(!flag), then throw the message.
+ * @param flag          true to pass
+ * @param msgCode       code for msg
+ * @param args          replacer for msg
+ * @returns {*}
+ */
+core4cc.assert = function(flag, msgCode, args){
+    if(flag) return;
+    throw core4cc.getMsg(msgCode, args);
+};
+
+/**
+ * Desc: Get message.
+ * @param {String} msgCode
+ * @param [{}] args
+ * @returns {*}
+ */
+core4cc.getMsg = function(msgCode, args){
+    if(!args) return msgCode;
+    for(var key in args){
+        if(!key) continue;
+        if(!args[key]) continue;
+        msgCode = msgCode.replace(new RegExp("\\[\\%" + key + "\\%\\]", "g"), args[key]);
+    }
+    return msgCode;
+};
+/**
+ * Desc: Log message.
+ * @param {String} msgCode
+ * @param [{}] args
+ * @returns {*}
+ */
+core4cc.log = function(msgCode, args){
+    console.log(core4cc.getMsg(msgCode, args));
+};
+core4cc.warn = function(msgCode, args){
+    console.log(msgCode.WARN_PRE + core4cc.getMsg(msgCode, args));
 };

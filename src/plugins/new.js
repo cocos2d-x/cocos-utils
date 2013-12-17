@@ -1,8 +1,10 @@
 var fs = require("fs");
 var path = require("path");
+var msgCode = require("../../cfg/msgCode");
+var core4cc = require("../core4cc");
 
 /**
- * Desc: 通用格式化方法
+ * Desc: common formatter
  * @param filePath
  * @param info
  */
@@ -13,17 +15,22 @@ function pubFrmt(filePath, info, cb){
     fs.writeFileSync(filePath, content);
     if(cb) cb();
 }
-
+/**
+ * package formatter.
+ * @param filePath
+ * @param info
+ * @param cb
+ */
 function packageFrmt(filePath, info, cb){
     var content = fs.readFileSync(filePath).toString();
     content = content.replace(/\[\%name\%\]/g, info.name);
-    var fullDepArr = [
+    var fullDepArr = [//full modules
         "cocos2d-html5", "ccaction3d", "ccanimation", "ccbase64toimg", "ccbox2d", "ccchipmunk", "cccliping",
         "cceditbox", "cceffects", "ccinput", "cclabelbmfont", "ccmotionstreak", "ccnotificationcenter", "ccparallax",
         "ccparticle", "ccphysics", "ccpluginx", "ccscrollview", "cctgalib", "cctilemap", "cctransition",
         "ccuserdefault", "ccziputils", "cocosbuilder", "cocosdenshion", "cocoslog", "cocostudio"
     ];
-    var dependenciesStr = '"cocos2d-html5" : "*"';
+    var dependenciesStr = '"cocos2d-html5" : "*"';//core module
     if(info.full != null){
         dependenciesStr = "";
         for(var i = 0, li = fullDepArr.length; i < li; ++i){
@@ -38,10 +45,7 @@ function packageFrmt(filePath, info, cb){
     if(cb) cb();
 }
 
-/**
- * Desc: 文件格式化工具。
- * @type {{}}
- */
+//file formatter config.
 var fileFrmt = {};
 fileFrmt["index.html"] = pubFrmt;
 fileFrmt["release.html"] = pubFrmt;
@@ -54,7 +58,7 @@ fileFrmt["cocos2d.js"] = pubFrmt;
 fileFrmt["package.json"] = packageFrmt;
 
 /**
- * Desc: 赋值文件到指定文件夹
+ * Desc: Copy files in srcDir to targetDir, then replace info by config.
  * @param srcDir
  * @param targetDir
  * @param opts
@@ -64,13 +68,13 @@ function _copyFiles(srcDir, targetDir, opts){
     var files = fs.readdirSync(srcDir);
     for(var i = 0, li = files.length; i < li; i++){
         var file = files[i];
-        if(fs.statSync(path.join(srcDir, file)).isDirectory()){//如果是目录则创建目录
+        if(fs.statSync(path.join(srcDir, file)).isDirectory()){//make dir if it`s a dir
             var dir = path.join(targetDir, file + "/");
             fs.mkdirSync(dir);
-            _copyFiles(path.join(srcDir, file + "/"), dir, opts);//继续递归
+            _copyFiles(path.join(srcDir, file + "/"), dir, opts);//goes on
         }else{
             var filePath = path.join(targetDir, file);
-            fs.writeFileSync(filePath, fs.readFileSync(path.join(srcDir, file)));//如果是文件则复制过去
+            fs.writeFileSync(filePath, fs.readFileSync(path.join(srcDir, file)));//copy if it`s a file
             if(fileFrmt[file]) {
                 fileFrmt[file](filePath, opts);
             }
@@ -79,24 +83,23 @@ function _copyFiles(srcDir, targetDir, opts){
 }
 
 /**
- * Desc: 初始化工程。
+ * Desc: Run plugin.
  * @param projName
  * @param opts
  * @returns {*}
  */
 function runPlugin(projName, opts, cocosCfg){
     var tempDir = path.join(__dirname, "../../templates/", opts.tempName + "/");
-    if(!fs.existsSync(tempDir)) return console.error(tempDir + " not exists!");//if project temp exists
+    core4cc.assert(fs.existsSync(tempDir), msgCode.TEMPLATE_NOT_EXISTS, {tempDir : tempDir});
 
     var projDir = path.join("./", opts.dir || projName);
-    //the project exists
-    if(fs.existsSync(projDir)) return console.error(projDir + " exists! Can not create again!");
+    core4cc.assert(!fs.existsSync(projDir), msgCode.PROJ_EXISTS, {projDir : projDir});
     fs.mkdirSync(projDir);
     opts.ccDir = "node_modules/cocos2d-html5/";
     opts.name = projName.toLowerCase();
     _copyFiles(tempDir, projDir, opts);
 
-    console.log("Success!");
+    console.log(core4cc.getMsg(msgCode.SUCCESS));
 };
 
 

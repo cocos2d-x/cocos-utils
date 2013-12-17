@@ -237,7 +237,10 @@ function genBuild(jsArr, cb){
     fs.writeFileSync(buildXmlPath, buildStr);
     exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){
         console.log(data);
-        if(err) return console.error(err);
+        if(err) {
+            console.error(err);
+            core4cc.assert(false, msgCode.PUBLISH_FAILED);
+        }
         cb(err);
     });
 }

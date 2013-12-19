@@ -10,6 +10,7 @@ function runPlugin(projDir, opts, cocosCfg){
         opts = projDir;
         projDir = process.cwd();
     }
+    projDir = core4cc.getStr4Cmd(projDir);
     projDir = core4cc.isAbsolute(projDir) ? projDir : path.join(process.cwd(), projDir);
     //Config your resources directorys here.
     var cfg4Res = cocosCfg.genRes;

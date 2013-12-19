@@ -2,7 +2,7 @@ var path = require("path");
 var core4cc = require("../core4cc");
 var genJsRes = require("./genJsRes");
 var genRes = require("./genRes");
-var genBaseJsList = require("./genBaseJsList");
+var genBaseCfg = require("./genBaseCfg");
 var msgCode = require("../../cfg/msgCode");
 
 /**
@@ -18,9 +18,10 @@ function runPlugin(dir, opts, cocosCfg){
         opts = dir;
         dir = process.cwd();
     }
+    dir = core4cc.getStr4Cmd(dir);
     projDir = core4cc.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
     genJsRes(projDir, {}, cocosCfg);
     genRes(projDir, {}, cocosCfg);
-    genBaseJsList(projDir, {}, cocosCfg);
+    genBaseCfg(projDir, {}, cocosCfg);
 };
 module.exports = runPlugin;

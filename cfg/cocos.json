@@ -1,4 +1,9 @@
 {
+    "engineDir" : "../node_modules/",
+    "dependencies" : [
+        "cocos2d-html5"
+    ],
+
     "genRes" : {
         "output" : "cfg/res.js",
         "fileTypes" : [
@@ -14,12 +19,16 @@
         "dirCfgs" : ["src", "test"]
     },
 
-    "install" : {
+    "genBaseCfg" : {
+        "output" : "baseCfg.js",
         "delTemp" : true
     },
 
     "publish" : {
-        "output" : "projects/proj.html5/mini.js",
+        "output" : "mini.js",
+        "compilationLevel" : "advanced",
+        "warning" : "quiet",
+        "debug" : false,
         "delLog" : false,
         "delTemp" : true
     }

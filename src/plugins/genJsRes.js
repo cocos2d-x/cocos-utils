@@ -10,6 +10,7 @@ function runPlugin(projDir, opts, cocosCfg){
         opts = projDir;
         projDir = process.cwd();
     }
+    projDir = core4cc.getStr4Cmd(projDir);
     projDir = core4cc.isAbsolute(projDir) ? projDir : path.join(process.cwd(), projDir);
     var packageInfo = require(path.join(projDir, "package.json"));//读取模块package配置信息
     var cfg4JsRes = cocosCfg.genJsRes;

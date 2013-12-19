@@ -7,9 +7,9 @@ var core4cc = require("./../core4cc.js");
 var exec = require('child_process').exec;
 var fs = require("fs");
 var delCode = require("../delCode");
+var msgCode = require("../../cfg/msgCode");
 
 var cfgDir = "cfg";
-var coreName = "cocos2d-html5";
 var projName, projDir, modulesDir, tempDir, resCfg, publishJs;
 var jsCache = {};
 var jsIgnoreMap = {
@@ -17,7 +17,7 @@ var jsIgnoreMap = {
 var mergeCache4Dependencies = {};
 
 /**
- * Desc: 合并依赖。
+ * Desc: merge base js list of dependencies to a single one.
  * @param modulesDir
  * @param dependencies
  * @param jsToMergeArr
@@ -36,18 +36,13 @@ function mergeDependencies(dependencies, jsToMergeArr){
 }
 
 /**
- * Desc: 创建temp文件夹以及temp内容。
+ * Desc: Create temp.
  */
 function createTemp(){
-    if(!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);//创建temp目录
-
-    var ccContent = fs.readFileSync(path.join(modulesDir, coreName, "src/cc.js")).toString();
-    fs.writeFileSync(path.join(tempDir, "cc.js"), ccContent.replace(/\/\/@defineStart[\w\W\s\S\d\D]*\/\/@defineEnd/, ""));
+    if(!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
 
     var jsToMergeArr = [];
     jsToMergeArr.push(path.join(projDir, cfgDir, "res.js"));
-//    jsToMergeArr.push(path.join(ccDir, "core", cfgDir, "jsRes.js"));
-//    jsToMergeArr.push(path.join(ccDir, "core", cfgDir, "resCfg.js"));
     mergeDependencies(core4cc.getDependencies(packageInfo.dependencies), jsToMergeArr);
 
     jsToMergeArr.push(path.join(projDir, cfgDir, "jsRes.js"));
@@ -56,7 +51,7 @@ function createTemp(){
 };
 
 /**
- * Desc: 获取索要加载依赖的资源。
+ * Desc: get resources by dependencies
  * @param resCfg
  * @param cfgName
  * @param result
@@ -82,7 +77,7 @@ function getLoadRes(resCfg, cfgName, result){
     return result;
 }
 /**
- * Desc: 创建为发布用得resCfg。
+ * Desc: Create resCfg for publishing.
  * @param resCfg
  */
 function createResCfg4Publish(resCfg){
@@ -130,7 +125,7 @@ function createResCfg4Publish(resCfg){
 };
 
 /**
- * Desc: 加载资源配置。
+ * Desc: Load resource config.
  * @param cfgName
  * @param jsArr
  */
@@ -150,7 +145,7 @@ function loadResCfg(cfgName, jsArr){
 }
 
 /**
- * Desc: 加载模块的基础部分。
+ * Desc: Load base for modules.
  * @param dependencies
  * @param jsArr
  */
@@ -165,7 +160,7 @@ function loadModuleBase(dependencies, jsArr){
 }
 
 /**
- * Desc: 加载游戏功能模块。
+ * Desc: Load game modules.
  * @param gameModules
  * @param jsArr
  */
@@ -177,65 +172,64 @@ function loadGameModules(gameModules, jsArr){
 };
 
 /**
- * Desc: 获取要压缩的js列表。
+ * Desc: Get js list for publishing.
  * @returns {Array}
  */
 function getJsArr(){
     var jsArr = [];
-//    jsArr.push(path.join(tempDir, "cc.js"));
     jsArr.push('[%' + projName + '%]/cfg/res.js');
-//    jsArr.push('[%' + projName + '%]/projects/proj.html5/cocos2d.js');
-
     jsArr.push(path.join("[%cocos2d-html5%]/src/cc4publish.js"));
     jsArr.push(path.join(tempDir, "resCfg4Publish.js"));
-    loadResCfg("core", jsArr);//core 模块
-    loadModuleBase(core4cc.getDependencies(packageInfo.dependencies), jsArr);//当前项目依赖模块
-    loadResCfg(projName, jsArr);//项目基本
-    loadGameModules(resCfg.gameModules, jsArr);//游戏功能模块
+    loadModuleBase(core4cc.getDependencies(packageInfo.dependencies), jsArr);//current dependencies
+    loadResCfg(projName, jsArr);//base for project
+    loadGameModules(resCfg.gameModules, jsArr);//game modules
     jsArr.push('[%' + projName + '%]/projects/proj.html5/main.js');
     return jsArr;
 };
 
 
 /**
- * Desc: 进行js压缩。
+ * Desc: Build.
  * @param jsArr
  */
-function genBuild(jsArr, cb){
+function build(jsArr, cb){
     var buildDir = path.join(tempDir, "build");
     if(fs.existsSync(buildDir)) core4cc.rmdirRecursive(buildDir);
     fs.mkdirSync(buildDir);
-    var buildStr = fs.readFileSync(path.join(__dirname, "../temp/build.xml")).toString();
     var jsListStr = "";
     for(var i = 0, li = jsArr.length; i < li; i++){
         var itemi = jsArr[i];
-        if(jsIgnoreMap[itemi]) {
-            continue;
-        }
+        if(jsIgnoreMap[itemi]) continue;//ignore current js
         var results = itemi.match(/\[\%[\w_\d\-]+\%\]/);
         var moduleName = "_";
-        if(results && results.length > 0){
+        if(results && results.length > 0){//replace width module path
             moduleName = results[0].substring(2, results[0].length - 2);
             var dir = moduleName == projName ? projDir : path.join(modulesDir, moduleName);
             dir = path.normalize(dir + "/");
             itemi = itemi.replace(/\[\%[\w_\d\-]+\%\]/, dir);
-        }else{
         }
-        if(cfg4Publish.delLog){
+        if(cfg4Publish.delLog){//to delete log
             var tempFile = path.join(buildDir , moduleName + "_" + path.basename(itemi));
-            delCode(path.normalize(itemi), tempFile);
+            delCode(path.normalize(itemi), tempFile);//src file to temp file
             itemi = tempFile;
         }
         var str = path.relative(projDir, itemi).replace(/\\/g, "/");
         jsListStr += '<file name="' + str + '"></file>\r\n                ';
     }
+
+    //generate build.xml by template.
+    var buildStr = fs.readFileSync(path.join(__dirname, "../temp/build.xml")).toString();
     buildStr = buildStr.replace(/\[\%projDir\%\]/g, projDir.replace(/\\/g, "/"));
     buildStr = buildStr.replace(/\[\%utilsDir\%\]/g, path.join(__dirname, "../../").replace(/\\/g, "/"));
     buildStr = buildStr.replace(/\[\%jsList\%\]/g, jsListStr.replace(/\\/g, "/"));
     buildStr = buildStr.replace(/\[\%output\%\]/g, path.join(projDir, cfg4Publish.output).replace(/\\/g, "/"));
-    var buildXmlPath = path.join(projDir, "projects/proj.html5/build.xml");
-    fs.writeFileSync(buildXmlPath, buildStr);
-    exec("cd " + path.dirname(buildXmlPath) + " && ant", function(err, data, info){
+    buildStr = buildStr.replace(/\[\%compilationLevel\%\]/g, cfg4Publish.compilationLevel);
+    buildStr = buildStr.replace(/\[\%warning\%\]/g, cfg4Publish.warning);
+    buildStr = buildStr.replace(/\[\%debug\%\]/g, cfg4Publish.debug);
+    var buildPath = path.join(projDir, path.dirname(cfg4Publish.output));
+
+    fs.writeFileSync(path.join(buildPath, "build.xml"), buildStr);
+    exec("cd " + buildPath + " && ant", function(err, data, info){
         console.log(data);
         if(err) {
             console.error(err);
@@ -245,36 +239,40 @@ function genBuild(jsArr, cb){
     });
 }
 
-
-
-
+/**
+ * Desc: Run plugin.
+ * @param dir
+ * @param opts
+ * @param cocosCfg
+ */
 function runPlugin(dir, opts, cocosCfg){
-    console.log("publishing...")
+    core4cc.log(msgCode.PUBLISHING);
     if(arguments.length == 2){
         cocosCfg = opts;
         opts = dir;
-        dir = process.cwd();//工程目录
+        dir = process.cwd();//dir of project
     }
+    dir = core4cc.getStr4Cmd(dir);
     projDir = core4cc.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
     cfg4Publish = cocosCfg.publish;
-    //初始化基础目录路径
-    packageInfo = require(path.join(projDir, "package.json"));//读取cocos配置信息
+    //init base path of project
+    packageInfo = require(path.join(projDir, "package.json"));//get package config of project
     modulesDir = path.join(projDir, "node_modules/");
     tempDir = path.join(projDir, "temp4Publish");
 
     projName = packageInfo.name;
-    publishJs = path.join(projDir, cfg4Publish.output);//发布的js路径
+    publishJs = path.join(projDir, cfg4Publish.output);//js path for publishing
     if(fs.existsSync(publishJs)) fs.unlinkSync(publishJs);
 
-    createTemp();//创建temp文件夹
-    resCfg = require(path.join(tempDir, "resCfg.js"));//获取整合后的资源配置
-    createResCfg4Publish(resCfg);//创建为发布用得resCfg
+    createTemp();//create temp dir
+    resCfg = require(path.join(tempDir, "resCfg.js"));//get resources config
+    createResCfg4Publish(resCfg);//create resCfg.js for publishing
 
-    var jsArr = getJsArr();//获取js列表
+    var jsArr = getJsArr();//get js array for publishing
 
-    genBuild(jsArr, function(err){
+    build(jsArr, function(err){
         if(cfg4Publish.delTemp) core4cc.rmdirRecursive(tempDir);
-    });//开始混淆压缩
+    });
 };
 
 module.exports = runPlugin;

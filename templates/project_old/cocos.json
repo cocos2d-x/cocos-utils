@@ -1,9 +1,4 @@
 {
-    "engineDir" : "../node_modules/",
-    "dependencies" : [
-        "cocos2d-html5"
-    ],
-
     "genRes" : {
         "output" : "cfg/res.js",
         "fileTypes" : [
@@ -20,12 +15,11 @@
     },
 
     "genJsList" : {
-        "output" : "baseJsList.js",
         "delTemp" : true
     },
 
     "publish" : {
-        "output" : "mini.js",
+        "output" : "projects/proj.html5/mini.js",
         "compilationLevel" : "advanced",
         "warning" : "quiet",
         "debug" : false,

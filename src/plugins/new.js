@@ -92,14 +92,22 @@ function runPlugin(projName, opts, cocosCfg){
     var tempDir = path.join(__dirname, "../../templates/", opts.tempName + "/");
     core4cc.assert(fs.existsSync(tempDir), msgCode.TEMPLATE_NOT_EXISTS, {tempDir : tempDir});
 
-    var projDir = path.join("./", opts.dir || projName);
+    var projDir = path.join("./", projName);
+    var dir = core4cc.getStr4Cmd(opts.dir);
+    if(dir && dir.trim() != ""){
+        if(core4cc.isAbsolute(dir)){
+            projDir = path.join(dir, projName);
+        }else{
+            projDir = path.join("./", dir, projName);
+        }
+    }
     core4cc.assert(!fs.existsSync(projDir), msgCode.PROJ_EXISTS, {projDir : projDir});
     fs.mkdirSync(projDir);
     opts.ccDir = "node_modules/cocos2d-html5/";
     opts.name = projName.toLowerCase();
     _copyFiles(tempDir, projDir, opts);
 
-    console.log(core4cc.getMsg(msgCode.SUCCESS));
+    core4cc.log(msgCode.SUCCESS);
 };
 
 

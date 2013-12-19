@@ -180,9 +180,9 @@ core4cc.isAbsolute = function(filePath){
 
 /**
  * Desc: if(!flag), then throw the message.
- * @param flag          true to pass
- * @param msgCode       code for msg
- * @param args          replacer for msg
+ * @param {Boolean} flag          true to pass
+ * @param {String} msgCode       code for msg
+ * @param [{}] args          replacer for msg
  * @returns {*}
  */
 core4cc.assert = function(flag, msgCode, args){
@@ -214,6 +214,24 @@ core4cc.getMsg = function(msgCode, args){
 core4cc.log = function(msgCode, args){
     console.log(core4cc.getMsg(msgCode, args));
 };
+/**
+ * Desc: Warn message.
+ * @param msgCode
+ * @param args
+ */
 core4cc.warn = function(msgCode, args){
     console.log(msgCode.WARN_PRE + core4cc.getMsg(msgCode, args));
 };
+
+/**
+ * Desc: Get string for command.
+ * e.g. aaaa ---> aaaa
+ *      "a a" ---> a a
+ * @param str
+ * @returns {*}
+ */
+core4cc.getStr4Cmd = function(str){
+    if(!str) return null;
+    if(str.length < 2) return str;
+    return str.substring(0, 1) == '"' && str.substring(str.length - 1) == '"' ? str.substring(1, str.length - 1) : str;
+}

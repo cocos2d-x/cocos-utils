@@ -16,16 +16,17 @@ var CONSTS = {
     F_PUBLISH : "publish",
     F_GEN_RES : "genRes",
     F_GEN_JS_RES : "genJsRes",
-    F_GEN_BASE_JS_LIST : "genBaseJsList",
+    F_GEN_BASE_CFG : "genBaseCfg",
 
-    C_DIR : "-p",
-    C_T : "-t",
-    C_FULL : "-full",
+    OPT_P : "-p",
+    OPT_T : "-t",
+    OPT_FULL : "-full",
 
     TEMP_NAME : "tempName",
     DIR : "dir",
     FULL : "full"
 }
+
 
 //function map
 var funcMap = {};
@@ -36,7 +37,7 @@ funcMap[CONSTS.F_BUILD] = true;
 funcMap[CONSTS.F_PUBLISH] = true;
 funcMap[CONSTS.F_GEN_RES] = true;
 funcMap[CONSTS.F_GEN_JS_RES] = true;
-funcMap[CONSTS.F_GEN_BASE_JS_LIST] = true;
+funcMap[CONSTS.F_GEN_BASE_CFG] = true;
 
 //whether need to read config of cocos.json
 var needToReadCfg = {};
@@ -44,13 +45,14 @@ needToReadCfg[CONSTS.F_BUILD] = true;
 needToReadCfg[CONSTS.F_PUBLISH] = true;
 needToReadCfg[CONSTS.F_GEN_RES] = true;
 needToReadCfg[CONSTS.F_GEN_JS_RES] = true;
-needToReadCfg[CONSTS.F_GEN_BASE_JS_LIST] = true;
+needToReadCfg[CONSTS.F_GEN_BASE_CFG] = true;
 
 //config map. map command to the key of args
 var cfgMap = {};
-cfgMap[CONSTS.C_DIR] = {name : CONSTS.DIR};
-cfgMap[CONSTS.C_T] = {name : CONSTS.TEMP_NAME};
-cfgMap[CONSTS.C_FULL] = {name : CONSTS.FULL};
+cfgMap
+cfgMap[CONSTS.OPT_P] = {name : CONSTS.DIR};
+cfgMap[CONSTS.OPT_T] = {name : CONSTS.TEMP_NAME};
+cfgMap[CONSTS.OPT_FULL] = {name : CONSTS.FULL};
 
 /**
  * Desc: validate the length of command.
@@ -80,7 +82,7 @@ cfgValid[CONSTS.F_BUILD] = {func : validLength, args : {l : "0,1"}};
 cfgValid[CONSTS.F_PUBLISH] = {func : validLength, args : {l : "0,1"}};
 cfgValid[CONSTS.F_GEN_RES] = {func : validLength, args : {l : "0,1"}};
 cfgValid[CONSTS.F_GEN_JS_RES] = {func : validLength, args : {l : "0,1"}};
-cfgValid[CONSTS.F_GEN_BASE_JS_LIST] = {func : validLength, args : {l : "0,1"}};
+cfgValid[CONSTS.F_GEN_BASE_CFG] = {func : validLength, args : {l : "0,1"}};
 
 cfgValid[CONSTS.DIR] = {func : validLength, args : {l : 1}};
 cfgValid[CONSTS.TEMP_NAME] = {func : validLength, args : {l : 1}};

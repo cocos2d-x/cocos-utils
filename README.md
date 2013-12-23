@@ -8,6 +8,7 @@ A tool to help developers coding cocos2d-html5 easily.
 
 ## Installing
 * Install `nodejs`...
+* Install `ant`...
 * Then type:
 
 ```bash
@@ -29,7 +30,6 @@ cocos help
 cd the/dir/you/want/to/put/your/project/
 cocos new helloworld
 cd helloworld
-npm install
 cocos install
 ```
 

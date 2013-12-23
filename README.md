@@ -28,9 +28,10 @@ cocos help
 
 ```bash
 cd the/dir/you/want/to/put/your/project/
+npm install cocos2d-html5
 cocos new helloworld
 cd helloworld
-cocos install
+cocos build
 ```
 
 ## Visit dev version

@@ -5,5 +5,5 @@ process.on('uncaughtException', function(err){
     console.error(err);
 });
 
-var argvParser = require("../src/argvParser.js");
-require(path.join(__dirname, "../src/pluginRunner")).run(argvParser.getArgv());
+var argvParser = require("../lib/core/argvParser.js");
+require(path.join(__dirname, "../lib/core/pluginRunner")).run(argvParser.getArgv());

@@ -22,6 +22,8 @@ module.exports = {
     DEFAULT_PROJ_TEMP : "project",
     DEFAULT_ENGINE_MODULES_PATH : "../node_modules/",
 
+    TEMP_BUILD_XML_PATH : "templates/compile/build.xml",
+
     RES_4_G_MODULES : "cc.res4GameModules",
     MAIN_PATH : "main.js",
     RES_JS_PATH : "cfg/res.js",

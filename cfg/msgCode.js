@@ -1,14 +1,17 @@
 module.exports = {
     ERR_PRE : "\033[1;31;1mERROR:\033[0m ",
     WARN_PRE : "\033[1;33;1mWARN:\033[0m ",
+    VERSION : "\033[1;36;1m[%version%]\033[0m",
 
     BUILDING : "\033[1;36;1mBuilding...\033[0m",
     PUBLISHING : "\033[1;36;1mPublishing...\033[0m",
 
-    CMD_ERR : "mcommand error, please check!",
+    CMD_ERR : "command error, please check!",
+    CMD_OPTS_ERR : "options for command error, please check!",
+    CMD_HAS_NO_OPT : "command \033[36m[%command%]\033[0m has no option \033[31m[%opt%]\033[0m, please check!",
     CMD_ARGS_ERR : "command args error, please check!",
     FUNC_NAME_NULL : "function can not be null, please check!",
-    FUNC_NOT_EXISTS : "function \033[31m[%func%]\033[0m not exists, please check!",
+    PLUGIN_NOT_EXISTS : "plugin \033[31m[%name%]\033[0m not exists, please check!",
     CMD_LENGTH : "length of arguments for \033[36m[%cmd%]\033[0m should be \033[31m[%length%]\033[0m, please check!",
     PUBLISH_FAILED : "publish failed, please check!",
     SUCCESS : "\033[32mSuccess!\033[0m",
@@ -65,6 +68,11 @@ module.exports = {
         "Folder to put the project.",
         "e.g. \033[43;1;1mcocos new helloworld -p a/b/c\033[0m.",
         "Or \033[43;1;1mcocos new helloworld -p \"a/b/c cc\"\033[0m."
+    ],
+    DESC_NEW_ENGINE_MODULES : [
+        "Path of engine modules.",
+        "e.g. \033[43;1;1mcocos new helloworld -em ../../a/b/node_modules\033[0m.",
+        "Or \033[43;1;1mcocos new helloworld -em \"../../a/b/node_modules\"\033[0m."
     ],
     DESC_NEW_TEMP_NAME : [
         "Template name which you want to use to create project.",

@@ -1,24 +1,41 @@
+var PluginCfg = require("../obj").PluginCfg;
 var path = require("path");
+var fs = require("fs");
 var ResGen = require("../ResGen");
 var core4cc = require("../core4cc");
 var msgCode = require("../../cfg/msgCode");
+var consts = require("../../cfg/consts");
 
-function runPlugin(projDir, opts, cocosCfg){
-    core4cc.log(msgCode.GENERATING, {target : "jsRes"});
-    if(arguments.length == 2){
-        cocosCfg = opts;
-        opts = projDir;
-        projDir = process.cwd();
+var pluginCfg = new PluginCfg(consts.F_GEN_JS_RES, msgCode.DESC_GEN_JS_RES, {length : "0,1"});
+
+/**
+ * Desc: Run plugin.
+ * @param currDir
+ * @param args
+ * @param opts
+ */
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts);
+    var projDir = currDir;
+    if(args.length > 0){
+        var str = args[0];
+        projDir = core4cc.isAbsolute(str) ? str : path.join(currDir, str);
     }
-    projDir = core4cc.getStr4Cmd(projDir);
-    projDir = core4cc.isAbsolute(projDir) ? projDir : path.join(process.cwd(), projDir);
-    var packageInfo = require(path.join(projDir, "package.json"));//读取模块package配置信息
-    var cfg4JsRes = cocosCfg.genJsRes;
-    var resGen = new ResGen(cfg4JsRes.dirCfgs, cfg4JsRes.output);
-    resGen.fileTypes = cfg4JsRes.fileTypes;
-    resGen.startStr = "var js = js || {};\r\njs." + packageInfo.name.replace(/-/g, "_") + " = ";
+    core4cc.log(msgCode.GENERATING, {target : "jsRes"});
+
+    var projCocosPath = path.join(projDir, "cocos.json");
+    var defCocos = require("../../cfg/cocos.json");
+    var projCocos = fs.existsSync(projCocosPath) ? require(projCocosPath) : {};
+    var pkgJson = require(path.join(projDir, "package.json"));
+    var pluginName = path.basename(__filename, ".js");
+    var cfg = core4cc.mergeData(projCocos[pluginName] ,defCocos[pluginName]);
+
+    var resGen = new ResGen(cfg.dirCfgs, cfg.output);
+    resGen.fileTypes = cfg.fileTypes;
+    resGen.startStr = "var js = js || {};\r\njs." + pkgJson.name.replace(/-/g, "_") + " = ";
     resGen.projDir = projDir;
-    resGen.resPre = "[%" + packageInfo.name + "%]"
+    resGen.resPre = "[%" + pkgJson.name + "%]"
     resGen.gen();
 };
-module.exports = runPlugin;
+exports.run = run;
+exports.cfg = pluginCfg;

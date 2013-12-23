@@ -5,11 +5,15 @@
              classpath="[%utilsDir%]lib/jar/compiler.jar"/>
 
     <target name="compile">
-        <jscomp compilationLevel="advanced" warning="quiet"
-                debug="false" output="[%output%]">
+        <jscomp compilationLevel="advanced"
+                warning="quiet"
+                debug="false"
+                output="[%output%]"
+                sourceMapOutputFile="sourcemap"
+                sourceMapFormat="V3">
 
             <externs dir="${basedir}">
-                <file name="node_modules/cocos2d-html5/cfg/cocos2d_externs.js"/>
+                <file name="[%engineDir%]cocos2d-html5/cfg/cocos2d_externs.js"/>
             </externs>
             <sources dir="${basedir}">
                 [%jsList%]

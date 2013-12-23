@@ -2,24 +2,24 @@ var fs = require("fs");
 var path = require("path");
 
 var delStart = -1;
-var stack = [];//用来记录小括号的栈
-var strStack = [];
+var stack = [];//stack for "(" and ")"
+var strStack = [];//stack for string
 
 /**
- * Desc: 跳过空格
+ * Desc: Jump blank.
  * @param content
  * @param startIndex
  * @returns {Number|number|length|*|Buffer.length}
  * @private
  */
-function _delBlank(content, startIndex){
+function _jumpBlank(content, startIndex){
     var l = content.length;
     if(startIndex >= l) return l
     var index = content.substring(startIndex).search(/\S/);
     return index < 0 ? l : startIndex + index;
 };
 /**
- * Desc: 跳过字符串
+ * Desc: Jump string.
  * @param content
  * @param startIndex
  * @returns {*}
@@ -37,14 +37,14 @@ function _doStrStack(content, startIndex){
     return l;
 }
 /**
- * Desc: 处理小括号，使index到")"后面
+ * Desc: Handle "(" and ")", make index after ")".
  * @param content
  * @param startIndex
  * @returns {*}
  * @private
  */
 function _doStack(content, startIndex){
-    var index = _delBlank(content, startIndex);
+    var index = _jumpBlank(content, startIndex);
     if(index >= content.length) return content.length;
     var c = content.substring(index, index+1);
     if(c == "'" || c == '"') {
@@ -69,7 +69,7 @@ function _doStack(content, startIndex){
     }
 }
 /**
- * Desc: 处理if，目前没用
+ * Desc: handle "if", no use currently.
  * @param content
  * @param startIndex
  * @param pre
@@ -78,20 +78,20 @@ function _doStack(content, startIndex){
  */
 function _doIf(content, startIndex, pre){
 //    console.log("doIf");
-    var index = _delBlank(content, startIndex);
+    var index = _jumpBlank(content, startIndex);
     if(content.substring(index, index+1) != "(") return index;
     delStart = startIndex - pre.length;
     index = _doStack(content, startIndex);
-    index = _delBlank(content, index);
+    index = _jumpBlank(content, index);
     if(index >= content.length) return content.length;
     var c = content.substring(index, index+1);
-    if(c == "{"){//有带大括号的不管
-        delStart = -1;//重新开始
+    if(c == "{"){//if "{"
+        delStart = -1;//restart
     }
     return index;
 }
 /**
- * Desc: 处理else，目前没用
+ * Desc: handle "else", no use currently.
  * @param content
  * @param startIndex
  * @param pre
@@ -100,23 +100,23 @@ function _doIf(content, startIndex, pre){
  */
 function _doElse(content, startIndex, pre){
 //    console.log("_doElse");
-    var index = _delBlank(content, startIndex);
+    var index = _jumpBlank(content, startIndex);
     if(content.substring(index).search(/if/) == 0){
-        index = _delBlank(content, index + 2);
+        index = _jumpBlank(content, index + 2);
     }
     if(content.substring(index, index+1) != "(") return index;
     delStart = startIndex - pre.length;
     index = _doStack(content, startIndex);
-    index = _delBlank(content, index);
+    index = _jumpBlank(content, index);
     if(index >= content.length) return content.length;
     var c = content.substring(index, index+1);
-    if(c == "{"){//有带大括号的不管
-        delStart = -1;//重新开始
+    if(c == "{"){//if "{"
+        delStart = -1;//restart
     }
     return index;
 }
 /**
- * Desc: 处理for，目前没用。
+ * Desc: handle "for", no use currently.
  * @param content
  * @param startIndex
  * @param pre
@@ -127,16 +127,16 @@ function _doFor(content, startIndex, pre){
 //    console.log("_doFor");
     delStart = startIndex - pre.length;
     var index = _doStack(content, startIndex);
-    index = _delBlank(content, index);
+    index = _jumpBlank(content, index);
     if(index >= content.length) return content.length;
     var c = content.substring(index, index+1);
-    if(c == "{"){//有带大括号的不管
-        delStart = -1;//重新开始
+    if(c == "{"){//if "{"
+        delStart = -1;//restart
     }
     return index;
 }
 /**
- * Desc: 处理log
+ * Desc: Handle log.
  * @param content
  * @param startIndex
  * @param pre
@@ -144,10 +144,9 @@ function _doFor(content, startIndex, pre){
  * @private
  */
 function _doLog(content, startIndex, pre){
-//    console.log("_doConsole");
     delStart = delStart >= 0 ? delStart : startIndex - pre.length;
     var index = _doStack(content, startIndex);
-    index = _delBlank(content, index);
+    index = _jumpBlank(content, index);
     if(index >= content.length) return content.length;
     var c = content.substring(index, index+1);
     index = c == ";" ? index + 1 : index;
@@ -161,12 +160,12 @@ var funcMap = {
     "cc.log" : _doLog
 };
 /**
- * Desc: 跳过注释
+ * Desc: Jump comment.
  * @param content
  * @param startIndex
  * @returns {*}
  */
-function delCommon(content, startIndex){
+function delComment(content, startIndex){
     var c = content.substring(startIndex, startIndex + 2);
     var l = content.length;
     if(c == "//"){
@@ -178,15 +177,18 @@ function delCommon(content, startIndex){
     }
     return startIndex;
 }
-
+/**
+ * Desc: Delete code with roles.
+ * @param content
+ * @returns {*}
+ * @private
+ */
 function _delCode(content){
     var index = 0, l = content.length;
     while(index < l){
-        index = _delBlank(content, index);
+        index = _jumpBlank(content, index);
         if(index >= l) break;
-        index = delCommon(content, index);
-//        console.log(content.length + "  " + index + content.substring(0,index));
-//        console.log(content.substring(index))
+        index = delComment(content, index);
         if(index >= l) break;
         var index2 = content.substring(index).search(/[ \n\(\{]/);
         if(index2 == 0){
@@ -194,9 +196,7 @@ function _delCode(content){
             continue;
         }
         if(index + index2 >= l-1 || index2 < 0) break;
-//        index = index + index2;
         var key = content.substring(index, index + index2);
-//        console.log(index + "   " + index2 + "->" + content.substring(index, index+1))
         if(funcMap[key]) {
             var tempIndex = funcMap[key](content, index+index2, key);
 //            console.log("--->" + key + ":" + delStart + "  " + tempIndex);
@@ -216,5 +216,4 @@ module.exports = function(file, tempFile){
     var content = _delCode(fs.readFileSync(file).toString());
     tempFile = tempFile || file;
     fs.writeFileSync(tempFile, content);
-//    fs.writeFileSync(path.join(__dirname, "test/files/temp.js"), content);
 };

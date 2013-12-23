@@ -1,6 +1,22 @@
-function runPlugin(srcDir, targetDir, opts){
+var PluginCfg = require("../obj").PluginCfg;
+var msgCode = require("../../cfg/msgCode");
+var core4cc = require("../core4cc");
+var consts = require("../../cfg/consts");
+
+var pluginCfg = new PluginCfg(consts.F_VERSION, msgCode.DESC_VERSION, {length : 0});
+
+/**
+ * Desc: Run plugin.
+ * @param currDir
+ * @param args
+ * @param opts
+ */
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts)
     var packageInfo = require("../../package.json");
-    console.log("\033[1;36;1m" + packageInfo.version + "\033[0m");
+    core4cc.log(msgCode.VERSION, {version : packageInfo.version});
 }
 
-module.exports = runPlugin;
+
+exports.run = run;
+exports.cfg = pluginCfg;

@@ -1,18 +1,26 @@
+var PluginCfg = require("../obj").PluginCfg;
 var path = require("path");
-var core4cc = require("../core4cc");
 var fs = require("fs");
+var core4cc = require("../core4cc");
 var msgCode = require("../../cfg/msgCode");
 var consts = require("../../cfg/consts");
 
-function runPlugin(dir, opts, cocosCfg){
-    core4cc.log(msgCode.GENERATING, {target : "genBaseCfg"});
-    if(arguments.length == 2){
-        cocosCfg = opts;
-        opts = dir;
-        dir = process.cwd();
+var pluginCfg = new PluginCfg(consts.F_GEN_BASE_CFG, msgCode.DESC_GEN_BASE_CFG, {length : "0,1"});
+
+/**
+ * Desc: Run plugin.
+ * @param currDir
+ * @param args
+ * @param opts
+ */
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts);
+    var projDir = currDir;
+    if(args.length > 0){
+        var str = args[0];
+        projDir = core4cc.isAbsolute(str) ? str : path.join(currDir, str);
     }
-    dir = core4cc.getStr4Cmd(dir);
-    projDir = core4cc.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
+    core4cc.log(msgCode.GENERATING, {target : "baseCfg"});
 
     var cfgSearcher = require("../cfgSearcher");
     cfgSearcher.init(projDir, false);
@@ -39,11 +47,17 @@ function runPlugin(dir, opts, cocosCfg){
     }
     content += "    ]\r\n";
     content += "};"
-    var baseResList = cfgSearcher.getBaseResList();
-    var cfg = cocosCfg.genBaseCfg;
+
+    var projCocosPath = path.join(projDir, "cocos.json");
+    var defCocos = require("../../cfg/cocos.json");
+    var projCocos = fs.existsSync(projCocosPath) ? require(projCocosPath) : {};
+    var pluginName = path.basename(__filename, ".js");
+    var cfg = core4cc.mergeData(projCocos[pluginName] ,defCocos[pluginName]);
+
     var path4BaseJsList = path.join(projDir, cfg.output || consts.BASE_CFG_PATH);
     fs.writeFileSync(path4BaseJsList, content);
     core4cc.log(msgCode.SUCCESS_PATH, {path : path4BaseJsList});
 //    if(cocosCfg.genBaseCfg && cocosCfg.genBaseCfg.delTemp) core4cc.rmdirRecursive(tempDir);
 }
-module.exports = runPlugin;
+exports.run = run;
+exports.cfg = pluginCfg;

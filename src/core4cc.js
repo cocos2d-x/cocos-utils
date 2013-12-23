@@ -235,3 +235,17 @@ core4cc.getStr4Cmd = function(str){
     if(str.length < 2) return str;
     return str.substring(0, 1) == '"' && str.substring(str.length - 1) == '"' ? str.substring(1, str.length - 1) : str;
 }
+/**
+ * Desc: Merge data by default value
+ * @param data
+ * @param defData default value
+ * @returns {{}|*}
+ */
+core4cc.mergeData = function(data, defData){
+    data = data || {};
+    if(defData == null) return data;;
+    for (var key in defData) {
+        if(data[key] == null && defData[key] != null) data[key] = defData[key];
+    }
+    return data;
+}

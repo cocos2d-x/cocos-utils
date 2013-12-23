@@ -1,5 +1,5 @@
 {
-    "engineDir" : "../node_modules/",
+    "engineDir" : "[%emPath%]",
     "dependencies" : [
         "cocos2d-html5"
     ],
@@ -19,9 +19,8 @@
         "dirCfgs" : ["src", "test"]
     },
 
-    "genJsList" : {
-        "output" : "baseJsList.js",
-        "delTemp" : true
+    "genBaseCfg" : {
+        "output" : "baseCfg.js"
     },
 
     "publish" : {
@@ -29,7 +28,6 @@
         "compilationLevel" : "advanced",
         "warning" : "quiet",
         "debug" : false,
-        "delLog" : false,
-        "delTemp" : true
+        "delLog" : false
     }
 }

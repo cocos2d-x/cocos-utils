@@ -2,6 +2,10 @@ var fs = require("fs");
 var path = require("path");
 var msgCode = require("../../cfg/msgCode");
 var core4cc = require("../core4cc");
+var OptCfg = require("../obj").OptCfg;
+var PluginCfg = require("../obj").PluginCfg;
+var consts = require("../../cfg/consts");
+
 
 /**
  * Desc: common formatter
@@ -11,6 +15,7 @@ var core4cc = require("../core4cc");
 function pubFrmt(filePath, info, cb){
     var content = fs.readFileSync(filePath).toString();
     content = content.replace(/\[\%name\%\]/g, info.name);
+    content = content.replace(/\[\%emPath\%\]/g, info.emPath);
     content = content.replace(/\[\%ccDir\%\]/g, info.ccDir);
     fs.writeFileSync(filePath, content);
     if(cb) cb();
@@ -53,6 +58,7 @@ fileFrmt["resCfg.js"] = pubFrmt;
 fileFrmt["main.js"] = pubFrmt;
 fileFrmt["jsRes.js"] = pubFrmt;
 fileFrmt["cocos2d.js"] = pubFrmt;
+fileFrmt["cocos.json"] = pubFrmt;
 
 
 fileFrmt["package.json"] = packageFrmt;
@@ -82,33 +88,49 @@ function _copyFiles(srcDir, targetDir, opts){
     }
 }
 
+var pluginCfg = new PluginCfg(consts.F_NEW, msgCode.DESC_NEW);
+var dirOptCfg = new OptCfg(consts.OPT_P, msgCode.DESC_NEW_DIR);
+var emOptCfg = new OptCfg(consts.OPT_EM, msgCode.DESC_NEW_ENGINE_MODULES);
+var tempNameOptCfg = new OptCfg(consts.OPT_T, msgCode.DESC_NEW_TEMP_NAME);
+pluginCfg.opts = [dirOptCfg, emOptCfg, tempNameOptCfg];
+
 /**
  * Desc: Run plugin.
- * @param projName
+ * @param currDir
+ * @param args
  * @param opts
- * @returns {*}
  */
-function runPlugin(projName, opts, cocosCfg){
-    var tempDir = path.join(__dirname, "../../templates/", opts.tempName + "/");
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts);
+    var projName = args[0];
+    var projDir = path.join(currDir, projName);
+    var dir = opts[consts.OPT_P] ? opts[consts.OPT_P][0] : null;
+    if(dir){
+        if(core4cc.isAbsolute(dir)) projDir = path.join(dir, projName);
+        else projDir = path.join(currDir, dir, projName);
+    }
+    var tempName = (opts[consts.OPT_T] ? opts[consts.OPT_T][0] : null) || consts.DEFAULT_PROJ_TEMP;
+    var tempDir = path.join(__dirname, "../../templates", tempName, "./");
     core4cc.assert(fs.existsSync(tempDir), msgCode.TEMPLATE_NOT_EXISTS, {tempDir : tempDir});
 
-    var projDir = path.join("./", projName);
-    var dir = core4cc.getStr4Cmd(opts.dir);
-    if(dir && dir.trim() != ""){
-        if(core4cc.isAbsolute(dir)){
-            projDir = path.join(dir, projName);
-        }else{
-            projDir = path.join("./", dir, projName);
-        }
-    }
     core4cc.assert(!fs.existsSync(projDir), msgCode.PROJ_EXISTS, {projDir : projDir});
     fs.mkdirSync(projDir);
-    opts.ccDir = "node_modules/cocos2d-html5/";
+
+    var projCocosPath = path.join(projDir, "cocos.json");
+    var defCocos = require("../../cfg/cocos.json");
+    var projCocos = fs.existsSync(projCocosPath) ? require(projCocosPath) : {};
+    var pluginName = path.basename(__filename, ".js");
+    var cfg = core4cc.mergeData(projCocos[pluginName] ,defCocos[pluginName]);
+
+    var enginModues = (opts[consts.OPT_EM] ? opts[consts.OPT_EM][0] : null) || consts.DEFAULT_ENGINE_MODULES_PATH;
+
+    opts.emPath = path.join(enginModues, "./").replace(/\\/g, "/");
+    opts.ccDir = path.join(enginModues, "cocos2d-html5", "./").replace(/\\/g, "/");
     opts.name = projName.toLowerCase();
     _copyFiles(tempDir, projDir, opts);
 
     core4cc.log(msgCode.SUCCESS);
 };
 
-
-module.exports = runPlugin;
+exports.run = run;
+exports.cfg = pluginCfg;

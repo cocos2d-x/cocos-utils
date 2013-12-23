@@ -57,7 +57,7 @@ var cocos2dApp = cc.Application.extend({
 
 //        config.test = js.[%name%].MyTest_js;//config which js you want to test
 
-        if(!__PUBLISH && config["test"]) cc.test(config["test"]);//
+        if(config["test"]) cc.test(config["test"]);//
         else{
             //TODO enter point for game
             cc.log("++++++++++++++++entry for game++++++++++++");

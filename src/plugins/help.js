@@ -1,40 +1,51 @@
-var cmdCfg = require("../../cfg/cmdCfg");
+var PluginCfg = require("../obj").PluginCfg;
+var path = require("path");
+var fs = require("fs");
+var core4cc = require("../core4cc");
+var msgCode = require("../../cfg/msgCode");
+var consts = require("../../cfg/consts");
 
 var blank1 = "                ";
 var blank2 = "                ";
 
+var pluginCfg = new PluginCfg(consts.F_HELP, msgCode.DESC_HELP, {length : 0});
+
 /**
  * Desc: Run plugin.
- * @param projName
+ * @param currDir
+ * @param args
  * @param opts
- * @param cocosCfg
  */
-function runPlugin(projName, opts, cocosCfg){
-    var pluginCfg = cmdCfg.pluginCfg;
-    for (var key in pluginCfg) {
-        var cfg = pluginCfg[key];
-        var str1 = "\033[1;36;1m" + key + "\033[0m";
-        str1 += blank1.substring(key.length);
-        var descs = cfg.descs;
-        for(var i = 0, li = descs.length; i < li; i++){
-            var desc = descs[i];
-            var c = i == 0 ? str1 : blank1;
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts);
+    var files = fs.readdirSync(__dirname);
+    for(var i = 0, li = files.length; i < li; i++){
+        var file = files[i];
+        if(path.extname(file).toLowerCase() != ".js") continue;
+        var pluginName = path.basename(file, ".js");
+        var _pluginCfg = require("./" + file).cfg;
+        var str1 = "\033[1;36;1m" + pluginName + "\033[0m";
+        str1 += blank1.substring(pluginName.length);
+        var descs = _pluginCfg.descs;
+        for(var j = 0, lj = descs.length; j < lj; j++){
+            var desc = descs[j];
+            var c = j == 0 ? str1 : blank1;
             c += blank2 + desc;
             console.log(c);
         }
         console.log();
-        var opts = cfg.opts;
-        for(var i = 0, li = opts.length; i < li; i++){
-            var opt = opts[i];
-            var os = opt.opts;
+        var opts = _pluginCfg.opts;
+        for(var j = 0, lj = opts.length; j < lj; j++){
+            var opt = opts[j];
+            var optName = opt.name;
             var descs = opt.descs;
-            var lj = Math.max(os.length, descs.length);
-            for(var j = 0; j < lj; j++){
+            var lk = Math.max(1, descs.length);
+            for(var k = 0; k < lk; k++){
                 var c = blank1 + blank2;
-                if(j < os.length){
-                    c = blank1 + "\033[1;32;1m" + os[j] + "\033[0m" + blank2.substring(os[j].length);
+                if(k == 0){
+                    c = blank1 + "\033[1;32;1m" + optName + "\033[0m" + blank2.substring(optName.length);
                 }
-                c += descs[j] || "";
+                c += descs[k] || "";
                 console.log(c);
             }
             console.log();
@@ -43,4 +54,5 @@ function runPlugin(projName, opts, cocosCfg){
     }
 };
 
-module.exports = runPlugin;
+exports.run = run;
+exports.cfg = pluginCfg;

@@ -110,8 +110,8 @@ function searchModule(moduleName, pDir){
         var resCfgPath = cocosJson.resCfg ? (cocosJson.resCfg.output || consts.RES_CFG_JS_PATH) : consts.RES_CFG_JS_PATH;//path of resCfg.js
         jsArr.push(path.join(modulePath2Html[moduleName], jsResPath).replace(/\\/g, "/"));
         jsArr.push(path.join(modulePath2Html[moduleName], resCfgPath).replace(/\\/g, "/"));
-        jsArr = jsArr.concat(getRefJs(moduleName));
     }
+    jsArr = jsArr.concat(getRefJs(moduleName));
     moduleCache[moduleName] = true;
     return jsArr;
 }
@@ -178,6 +178,7 @@ function getGameModuleResMap(){
         result[gm] = getGameModuleRes(gm);
         gmResCache = {};//reset
     }
+    result[projName] = getGameModuleRes(projName);
     return result;
 }
 
@@ -189,4 +190,13 @@ exports.getGameModuleResMap = getGameModuleResMap;
 exports.modulePath2Html = modulePath2Html;
 exports.getProjName = function(){
     return projName;
+};
+exports.getCfgMerged = function(){
+    return cfgMerged;
+};
+exports.getResCfgMerged = function(){
+    return resCfgMerged;
+};
+exports.getJsResMerged = function(){
+    return jsResMerged;
 };

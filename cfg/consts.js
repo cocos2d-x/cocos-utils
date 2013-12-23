@@ -9,6 +9,7 @@ module.exports = {
     F_GEN_BASE_CFG : "genBaseCfg",
 
     OPT_P : "-p",
+    OPT_EM : "-em",
     OPT_T : "-t",
     OPT_FULL : "-full",
 
@@ -18,7 +19,11 @@ module.exports = {
 
 
 
+    DEFAULT_PROJ_TEMP : "project",
+    DEFAULT_ENGINE_MODULES_PATH : "../node_modules/",
 
+    RES_4_G_MODULES : "cc.res4GameModules",
+    MAIN_PATH : "main.js",
     RES_JS_PATH : "cfg/res.js",
     JS_RES_JS_PATH : "cfg/jsRes.js",
     RES_CFG_JS_PATH : "cfg/resCfg.js",

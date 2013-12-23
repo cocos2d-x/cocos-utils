@@ -1,27 +1,25 @@
+var PluginCfg = require("../obj").PluginCfg;
 var path = require("path");
+var fs = require("fs");
+var ResGen = require("../ResGen");
 var core4cc = require("../core4cc");
-var genJsRes = require("./genJsRes");
-var genRes = require("./genRes");
-var genBaseCfg = require("./genBaseCfg");
 var msgCode = require("../../cfg/msgCode");
+var consts = require("../../cfg/consts");
+
+var pluginCfg = new PluginCfg(consts.F_BUILD, msgCode.DESC_BUILD, {length : "0,1"});
 
 /**
  * Desc: Run plugin.
- * @param dir
+ * @param currDir
+ * @param args
  * @param opts
- * @param cocosCfg
  */
-function runPlugin(dir, opts, cocosCfg){
+function run(currDir, args, opts){
+    pluginCfg.valid(currDir, args, opts);
     core4cc.log(msgCode.BUILDING);
-    if(arguments.length == 2){
-        cocosCfg = opts;
-        opts = dir;
-        dir = process.cwd();
-    }
-    dir = core4cc.getStr4Cmd(dir);
-    projDir = core4cc.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
-    genJsRes(projDir, {}, cocosCfg);
-    genRes(projDir, {}, cocosCfg);
-    genBaseCfg(projDir, {}, cocosCfg);
+    require("./genRes").run(currDir, args, {});
+    require("./genJsRes").run(currDir, args, {});
+    require("./genBaseCfg").run(currDir, args, {});
 };
-module.exports = runPlugin;
+exports.run = run;
+exports.cfg = pluginCfg;

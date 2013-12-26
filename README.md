@@ -42,7 +42,7 @@ cocos build
 ```
 
 ## Visit dev version
-* Be sure that your project has bean published in a webserver, then visit `serverhost:prot/index.html`
+* Be sure that your project has been published in a webserver, then visit `serverhost:prot/index.html`
 
 ## Publishing
 cd to the path of `helloworld`, then type:
@@ -52,7 +52,7 @@ cocos publish
 ```
 
 ## Visit release version
-* Be sure that your project has bean published in a webserver, then visit `serverhost:prot/release.html`
+* Be sure that your project has been published in a webserver, then visit `serverhost:prot/release.html`
 
 ## cocos.json
 This file has some information about `cocos` command.
@@ -75,7 +75,7 @@ This is very important, for it tells us where the engine is.
 }
 ```
 
-* genRes--->To generate config of path of js sources.
+* genJsRes--->To generate config of path of js sources.
 ```script
 {
     "output" : "cfg/jsRes.js",

@@ -6,6 +6,7 @@ module.exports = {
     BUILDING : "\033[1;36;1mBuilding...\033[0m",
     PUBLISHING : "\033[1;36;1mPublishing...\033[0m",
     INSTALLING : "\033[1;36;1mInstalling...\033[0m",
+    UPDATING : "\033[1;36;1mUpdating...\033[0m",
 
     CMD_ERR : "command error, please check!",
     CMD_OPTS_ERR : "options for command error, please check!",
@@ -100,5 +101,12 @@ module.exports = {
         "Type \033[43;1;1mcocos install\033[0m,",
         "\033[43;1;1mcocos install path/you/want/to/put/\033[0m.",
         "Or, \033[43;1;1mcocos install \"path/you/want to/put/\"\033[0m."
+    ],
+
+    DESC_UPDATE : [
+        "Update all modules of cocos2d-html5.",
+        "Type \033[43;1;1mcocos update\033[0m,",
+        "\033[43;1;1mcocos update path/you/want/to/put/\033[0m.",
+        "Or, \033[43;1;1mcocos update \"path/you/want to/put/\"\033[0m."
     ]
 };

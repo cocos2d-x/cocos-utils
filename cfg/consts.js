@@ -8,6 +8,7 @@ module.exports = {
     F_GEN_JS_RES : "genJsRes",
     F_GEN_BASE_CFG : "genBaseCfg",
     F_INSTALL : "install",
+    F_UPDATE : "update",
 
     OPT_P : "-p",
     OPT_EM : "-em",

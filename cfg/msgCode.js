@@ -1,3 +1,4 @@
+var MORE_DETAILS = " Type \033[1;36;1mcocos help\033[0m to see more details!"
 module.exports = {
     ERR_PRE : "\033[1;31;1mERROR:\033[0m ",
     WARN_PRE : "\033[1;33;1mWARN:\033[0m ",
@@ -8,12 +9,12 @@ module.exports = {
     INSTALLING : "\033[1;36;1mInstalling...\033[0m",
     UPDATING : "\033[1;36;1mUpdating...\033[0m",
 
-    CMD_ERR : "command error, please check!",
-    CMD_OPTS_ERR : "options for command error, please check!",
-    CMD_HAS_NO_OPT : "command \033[36m[%command%]\033[0m has no option \033[31m[%opt%]\033[0m, please check!",
-    CMD_ARGS_ERR : "command args error, please check!",
+    CMD_ERR : "command error, please check!" + MORE_DETAILS,
+    CMD_OPTS_ERR : "options for command error, please check!" + MORE_DETAILS,
+    CMD_HAS_NO_OPT : "command \033[36m[%command%]\033[0m has no option \033[31m[%opt%]\033[0m, please check!" + MORE_DETAILS,
+    CMD_ARGS_ERR : "command args error, please check!" + MORE_DETAILS,
     FUNC_NAME_NULL : "function can not be null, please check!",
-    PLUGIN_NOT_EXISTS : "plugin \033[31m[%name%]\033[0m not exists, please check!",
+    PLUGIN_NOT_EXISTS : "plugin \033[31m[%name%]\033[0m not exists, please check!" + MORE_DETAILS,
     CMD_LENGTH : "length of arguments for \033[36m[%cmd%]\033[0m should be \033[31m[%length%]\033[0m, please check!",
     PUBLISH_FAILED : "publish failed, please check!",
     SUCCESS : "\033[32mSuccess!\033[0m",

@@ -87,7 +87,14 @@ This is very important, for it tells us where the engine is.
 * publish--->Publish project to single file mode.
 ```script
 {
-    "output" : "projects/proj.html5/mini.js"
+    "output" : "projects/proj.html5/mini.js",
+    "compilationLevel" : "advanced",
+    "warning" : "quiet",
+    "useSourceMap" : true,
+    "sourceMapOutputFile" : "sourcemap",//works while useSourceMap is true
+    "sourceMapFormat" : "V3",//works while useSourceMap is true
+    "debug" : false,
+    "delLog" : false
 }
 ```
 
@@ -208,11 +215,11 @@ you should run `cocos build` or `cocos genBaseCfg` once more.
 
 
 ## Develop
-Don`t forget run `cocos genRes` if you add or delete resources, rename the resources or change the path of the resources.
+Do not forget run `cocos genRes` if you add or delete resources, rename the resources or change the path of the resources.
 
-Don`t forget run `cocos genJsRes` if you add or delete js, rename js or change the path of js.
+Do not forget run `cocos genJsRes` if you add or delete js, rename js or change the path of js.
 
-Don`t forget run `cocos genBaseCfg` if you install or uninstall modules of cocos2d-html5 which are configured in dependencies of cocos.json,
+Do not forget run `cocos genBaseCfg` if you install or uninstall modules of cocos2d-html5 which are configured in dependencies of cocos.json,
 or of third party which are configured in dependencies of package.json, or modify the base part of resCfg of your project.
 
 In fact, you can use `cocos build` which includes these three command above.

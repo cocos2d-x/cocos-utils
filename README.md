@@ -19,14 +19,14 @@ Type `cocos help` to check whether the installing is successful.
 
 
 
-### Install all modules of cocos2d-html5
+## HelloWorld
+
+##### Install all modules of cocos2d-html5
 
 ```bash
 cd your/workspace/
 cocos install
 ```
-
-## HelloWorld
 
 ##### Create project of cocos2d-html5
 `cd` `your/workspace/`(under your server path), e.g. a project named `helloworld`:

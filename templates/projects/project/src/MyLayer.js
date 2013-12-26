@@ -43,19 +43,19 @@ var MyLayer = cc.Layer.extend({
         // ask director the window size
         var size = cc.Director.getInstance().getWinSize();
 
-        // add a "close" icon to exit the progress. it's an autorelease object
-        var closeItem = cc.MenuItemImage.create(
-            res.CloseNormal_png,
-            res.CloseSelected_png,
-            function () {
-                cc.log("close");
-            },this);
-        closeItem.setAnchorPoint(cc.p(0.5, 0.5));
-
-        var menu = cc.Menu.create(closeItem);
-        menu.setPosition(cc.p(0, 0));
-        this.addChild(menu, 1);
-        closeItem.setPosition(cc.p(size.width - 20, 20));
+//        // add a "close" icon to exit the progress. it's an autorelease object
+//        var closeItem = cc.MenuItemImage.create(
+//            res.CloseNormal_png,
+//            res.CloseSelected_png,
+//            function () {
+//                cc.log("close");
+//            },this);
+//        closeItem.setAnchorPoint(cc.p(0.5, 0.5));
+//
+//        var menu = cc.Menu.create(closeItem);
+//        menu.setPosition(cc.p(0, 0));
+//        this.addChild(menu, 1);
+//        closeItem.setPosition(cc.p(size.width - 20, 20));
 
         /////////////////////////////
         // 3. add your codes below...

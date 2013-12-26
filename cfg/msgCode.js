@@ -5,6 +5,7 @@ module.exports = {
 
     BUILDING : "\033[1;36;1mBuilding...\033[0m",
     PUBLISHING : "\033[1;36;1mPublishing...\033[0m",
+    INSTALLING : "\033[1;36;1mInstalling...\033[0m",
 
     CMD_ERR : "command error, please check!",
     CMD_OPTS_ERR : "options for command error, please check!",
@@ -21,9 +22,12 @@ module.exports = {
     PATH_NOT_EXISTS : "[%path%] not exists!",
     NOT_A_DIR : "[%dir%] is not a directory!",
     GENERATING : "\033[36m[%target%]\033[0m generating...",
+    PGK_NOT_EXISTS : "There is no package.json in \033[36m[%dir%]\033[0m, please check!!",
+    RES_KEY_EXISTS : "key \033[36m[%key%]\033[0m for resource exists, please check!!",
 
 
     PROJ_NAME_NULL : "Project name can not be null, please check!",
+
 
 
     DESC_VERSION : ["Show the version of cocos-utils."],
@@ -64,18 +68,37 @@ module.exports = {
         "Or, \033[43;1;1mcocos genBaseCfg \"your project/path/\"\033[0m."
     ],
 
-    DESC_NEW_DIR : [
-        "Folder to put the project.",
-        "e.g. \033[43;1;1mcocos new helloworld -p a/b/c\033[0m.",
-        "Or \033[43;1;1mcocos new helloworld -p \"a/b/c cc\"\033[0m."
+    DESC_OPT_O : [
+        "Output path of generated file",
+        "e.g. \033[43;1;1m -o res/Normal\033[0m.",
+        "Or \033[43;1;1m -o \"res Norma\"\033[0m."
     ],
-    DESC_NEW_ENGINE_MODULES : [
-        "Path of engine modules.",
-        "e.g. \033[43;1;1mcocos new helloworld -em ../../a/b/node_modules\033[0m.",
-        "Or \033[43;1;1mcocos new helloworld -em \"../../a/b/node_modules\"\033[0m."
+
+    DESC_OPT_DIR_CFGS : [
+        "DirCfgs to generate config. Same as dirCfg in cocos.json.",
+        "e.g. \033[43;1;1m -dirCfgs res/Normal res/Music\033[0m.",
+        "Or \033[43;1;1m -dirCfgs \"res/Normal->res/Normal\" \"res/Music->res/Music\"\033[0m."
     ],
-    DESC_NEW_TEMP_NAME : [
-        "Template name which you want to use to create project.",
-        "e.g. \033[43;1;1mcocos new helloworld -t myTemp\033[0m."
+
+    DESC_OPT_DIR : [
+        "Folder to put the project. p is short for path.",
+        "e.g. \033[43;1;1m -p a/b/c\033[0m.",
+        "Or \033[43;1;1m -p \"a/b/c cc\"\033[0m."
+    ],
+    DESC_OPT_ENGINE_MODULES : [
+        "Path of engine modules. em is short for engine modules",
+        "e.g. \033[43;1;1m -em ../../a/b/node_modules\033[0m.",
+        "Or \033[43;1;1m -em \"../../a/b/node_modules\"\033[0m."
+    ],
+    DESC_OPT_TEMP_NAME : [
+        "Template name which you want to use to create project. t is short for template.",
+        "e.g. \033[43;1;1m -t myTemp\033[0m."
+    ],
+
+    DESC_INSTALL : [
+        "Install all modules of cocos2d-html5.",
+        "Type \033[43;1;1mcocos install\033[0m,",
+        "\033[43;1;1mcocos install path/you/want/to/put/\033[0m.",
+        "Or, \033[43;1;1mcocos install \"path/you/want to/put/\"\033[0m."
     ]
 };

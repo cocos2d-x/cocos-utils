@@ -9,11 +9,11 @@
                 warning="quiet"
                 debug="false"
                 output="[%output%]"
-                sourceMapOutputFile="sourcemap"
-                sourceMapFormat="V3">
+                sourceMapOutputFile="[%sourceMapOutputFile%]"
+                sourceMapFormat="[%sourceMapFormat%]">
 
             <externs dir="${basedir}">
-                <file name="[%engineDir%]cocos2d-html5/cfg/cocos2d_externs.js"/>
+                <file name="[%engineDir%]cocos2d-html5/lib/cocos2d_externs.js"/>
             </externs>
             <sources dir="${basedir}">
                 [%jsList%]

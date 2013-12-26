@@ -23,12 +23,19 @@ cocos help
 ```
 
 
-## Create project of cocos2d-html5
-`cd` `the/dir/you/want/to/put/your/project/`(under your server path), e.g. a project named `helloworld`:
+## Install all modules of cocos2d-html5
 
 ```bash
-cd the/dir/you/want/to/put/your/project/
-npm install cocos2d-html5
+cd your/workspace/
+cocos install
+```
+
+
+## Create project of cocos2d-html5
+`cd` `your/workspace/`(under your server path), e.g. a project named `helloworld`:
+
+```bash
+cd your/workspace/
 cocos new helloworld
 cd helloworld
 cocos build
@@ -198,3 +205,14 @@ Same as `package.json` of `npm`.
 Third party modules will be configured in `dependencies`.
 If you add or delete a module (dependencies in package.json or cocos.json),
 you should run `cocos build` or `cocos genBaseCfg` once more.
+
+
+## Develop
+Don`t forget run `cocos genRes` if you add or delete resources, rename the resources or change the path of the resources.
+
+Don`t forget run `cocos genJsRes` if you add or delete js, rename js or change the path of js.
+
+Don`t forget run `cocos genBaseCfg` if you install or uninstall modules of cocos2d-html5 which are configured in dependencies of cocos.json,
+or of third party which are configured in dependencies of package.json, or modify the base part of resCfg of your project.
+
+In fact, you can use `cocos build` which includes these three command above.

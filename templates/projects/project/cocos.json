@@ -27,6 +27,9 @@
         "output" : "mini.js",
         "compilationLevel" : "advanced",
         "warning" : "quiet",
+        "useSourceMap" : true,
+        "sourceMapOutputFile" : "sourcemap",
+        "sourceMapFormat" : "V3",
         "debug" : false,
         "delLog" : false
     }

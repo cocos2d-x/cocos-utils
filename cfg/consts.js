@@ -7,11 +7,14 @@ module.exports = {
     F_GEN_RES : "genRes",
     F_GEN_JS_RES : "genJsRes",
     F_GEN_BASE_CFG : "genBaseCfg",
+    F_INSTALL : "install",
 
     OPT_P : "-p",
     OPT_EM : "-em",
     OPT_T : "-t",
     OPT_FULL : "-full",
+    OPT_O : "-o",
+    OPT_DC : "-dirCfgs",
 
     TEMP_NAME : "tempName",
     DIR : "dir",
@@ -23,6 +26,8 @@ module.exports = {
     DEFAULT_ENGINE_MODULES_PATH : "../node_modules/",
 
     TEMP_BUILD_XML_PATH : "templates/compile/build.xml",
+
+    TEMP_INSTALL_PACKAGE_PATH : "templates/install/package.json",
 
     RES_4_G_MODULES : "cc.res4GameModules",
     MAIN_PATH : "main.js",

@@ -11,11 +11,11 @@ module.exports = {
     F_UPDATE : "update",
 
     OPT_P : "-p",
-    OPT_EM : "-em",
+    OPT_EM : "-m",
     OPT_T : "-t",
     OPT_FULL : "-full",
     OPT_O : "-o",
-    OPT_DC : "-dirCfgs",
+    OPT_DC : "-dc",
 
     TEMP_NAME : "tempName",
     DIR : "dir",

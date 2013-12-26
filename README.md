@@ -28,7 +28,7 @@ cocos install
 
 ## HelloWorld
 
-- Create project of cocos2d-html5
+##### Create project of cocos2d-html5
 `cd` `your/workspace/`(under your server path), e.g. a project named `helloworld`:
 
 ```bash
@@ -38,18 +38,20 @@ cd helloworld
 cocos build
 ```
 
-- Visit dev version
+##### Visit dev version
 * Be sure that your project has been published in a webserver, then visit `serverhost:prot/index.html`
 
-- Publishing
+##### Publishing
 cd to the path of `helloworld`, then type:
 
 ```bash
 cocos publish
 ```
 
-- Visit release version
+##### Visit release version
 * Be sure that your project has been published in a webserver, then visit `serverhost:prot/release.html`
+
+
 
 
 

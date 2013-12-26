@@ -24,7 +24,7 @@ module.exports = {
     PATH_NOT_EXISTS : "[%path%] not exists!",
     NOT_A_DIR : "[%dir%] is not a directory!",
     GENERATING : "\033[36m[%target%]\033[0m generating...",
-    PGK_NOT_EXISTS : "There is no package.json in \033[36m[%dir%]\033[0m, please check!!",
+    PKG_NOT_EXISTS : "There is no package.json in \033[36m[%dir%]\033[0m, please check!!",
     RES_KEY_EXISTS : "key \033[36m[%key%]\033[0m for resource exists, please check!!",
 
 

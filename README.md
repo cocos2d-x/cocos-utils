@@ -39,7 +39,7 @@ cocos build
 ```
 
 ##### Visit dev version
-* Be sure that your project has been published in a webserver, then visit `serverhost:prot/index.html`
+* Be sure that your project has been published in a webserver, then visit `serverhost:port/index.html`
 
 ##### Publishing
 cd to the path of `helloworld`, then type:
@@ -49,7 +49,7 @@ cocos publish
 ```
 
 ##### Visit release version
-* Be sure that your project has been published in a webserver, then visit `serverhost:prot/release.html`
+* Be sure that your project has been published in a webserver, then visit `serverhost:port/release.html`
 
 
 

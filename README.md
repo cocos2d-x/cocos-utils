@@ -182,7 +182,7 @@ So `resCfg["m1"]` will be loaded when the project boots by default,
 which means config for `code01.js` and `code02.js` will been loaded, and so as `a.png` and `b.png`.
 
 ##### Config for a js
-Pay attention to this, if none config should be set of a js, you do not need to write the config followed.
+Pay attention to this, if none config should be setted of a js, you do not need to write the config followed.
 
 ```script
 resCfg[jsRes.code03_js] = {
@@ -220,6 +220,30 @@ e.g. set `config.test = js.m1.code03_js`, visit index.html, then you will see th
 Same as `layer`, `scene` and so on.
 
 Custom interface of test unit will be provided in the future.
+
+
+You can also write your test code in the `test` folder, such as a test js file named `code03Test.js`:
+
+```script
+var MySpriteTest = cc.Layer.extend(...);
+MySpriteTest.create = function(args){...};
+```
+
+Run `cocos genJsRes` or `cocos build` to generate the path config of code03Test.js into jsRes.js.
+
+Then configure:
+
+```script
+resCfg[jsRes.code03Test_js] = {
+    ref : [jsRes.code03_js],
+    layer : "MySpriteTest",
+    args : {...}
+}
+```
+
+Set `config.test = js.m1.code03Test_js`, visit `index.html`, then test case of MySpriteTest would be run.
+
+Test codes will not be complied by running `cocos publish`.
 
 By this way, you can test your js file easily,
 without editing any code of source of your project,

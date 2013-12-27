@@ -153,6 +153,9 @@ resCfg[key] = {
 
 Each property is optional.
 
+All paths of resources are generated in `res.js`, and all paths of js are generated in `jsRes.js`.
+Use these to configure `resCfg`.
+
 The `key` should be a string. Simply you can use `moduleName`,
 `js.moduleName.aJsSrc_js` configured in the jsRes.js of modules,
 or just a simple string.
@@ -162,7 +165,7 @@ or just a simple string.
 `res` is short for `resource`, whiche means the resources to be loaded for the part.
 
 ##### Base config part of module
-And the `resCfg["moduleName"]...` part is the base config for the module. e.g. a module named `m1`:
+The `resCfg["moduleName"]...` part is the base config of the module. e.g. a module named `m1`:
 
 ```script
 var resCfg = cc.resCfg || {};
@@ -179,7 +182,7 @@ So `resCfg["m1"]` will be loaded when the project boots by default,
 which means config for `code01.js` and `code02.js` will been loaded, and so as `a.png` and `b.png`.
 
 ##### Config for a js
-Pay a tension to this, if none config should be set of a js, you do not need to write the config followed.
+Pay attention to this, if none config should be set of a js, you do not need to write the config followed.
 
 ```script
 resCfg[jsRes.code03_js] = {
@@ -189,7 +192,7 @@ resCfg[jsRes.code03_js] = {
 };
 ```
 
-You can see that, `code03.js` has no references, but on resource named `c.png`.
+You can see that, `code03.js` has no references, but one resource named `c.png`.
 
 The content of `code03.js` is simply like this:
 

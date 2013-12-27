@@ -39,7 +39,7 @@ cocos build
 ```
 
 ##### Visit dev version
-* Be sure that your project has been published in a webserver, then visit `http://serverhost:port/your/project/path/.html` in your browser.
+* Be sure that your project has been published in a webserver, then visit `http://serverhost:port/your/project/path/index.html` in your browser.
 
 ##### Publishing
 
@@ -136,7 +136,33 @@ This is very important, for it tells us where the engine is.
 
 ## resCfg
 This is the main config for the dependencies of the project.
-And the `resCfg["moduleName"]...` is the base config for the module. e.g. a module named `m1`:
+
+Simply like this:
+
+```script
+resCfg[key] = {
+    res : [],
+    ref : [],
+    sprite : "",
+    layer : "",
+    scene : "",
+    args : {},
+    ...//your custom config
+}
+```
+
+Each property is optional.
+
+The `key` should be a string. Simply you can use `moduleName`,
+`js.moduleName.aJsSrc_js` configured in the jsRes.js of modules,
+or just a simple string.
+
+`ref` is short for `reference`, which contains the references for this part.
+
+`res` is short for `resource`, whiche means the resources to be loaded for the part.
+
+##### Base config part of module
+And the `resCfg["moduleName"]...` part is the base config for the module. e.g. a module named `m1`:
 
 ```script
 var resCfg = cc.resCfg || {};
@@ -147,12 +173,13 @@ resCfg["m1"] = {
 };
 ```
 
-`ref` is short for `reference`, which contains the references for this part.
+It means that the base config of the module references `code01.js` and `code02.js`, and preloads `a.png` and `b.png`.
 
-`res` is short for `resource`, whiche means the resources to be loaded for the part.
+So `resCfg["m1"]` will be loaded when the project boots by default,
+which means config for `code01.js` and `code02.js` will been loaded, and so as `a.png` and `b.png`.
 
-`resCfg["m1"]` will be loaded when the project boots by default,
-which means config for `code01.js` and `code02.js` will will ben loaded, and so as `a.png` and `b.png`.
+##### Config for a js
+Pay a tension to this, if none config should be set of a js, you do not need to write the config followed.
 
 ```script
 resCfg[jsRes.code03_js] = {
@@ -164,12 +191,25 @@ resCfg[jsRes.code03_js] = {
 
 You can see that, `code03.js` has no references, but on resource named `c.png`.
 
+The content of `code03.js` is simply like this:
+
+```script
+var MySprite = cc.Sprite.extend({...});
+MySprite.create = function(args){...};
+```
+
 The `sprite` is used to test `code03.js`.
 Be sure the there is a class name `MySprite` in `code03.js`,
-and the `MySprite` has a function called `create`, such as `MySprite.create = function(args)...`.
+and the `MySprite` has a function called `create`.
 `args` of the config will be passed to the `MySprite.create` function.
+If the `create` function has no arguments, just keep `args` null.
 
-Then, test mode is opened while the `config.test` is configured in `main.js`.
+Then, test mode is opened while the `config.test` is configured in `main.js`, such as:
+
+```script
+config.test = js.m1.code03_js;//config which js you want to test
+```
+
 Otherwise, the project will be ran as normal mode.
 
 e.g. set `config.test = js.m1.code03_js`, visit index.html, then you will see the test case of `code03.js`.
@@ -178,12 +218,13 @@ Same as `layer`, `scene` and so on.
 
 Custom interface of test unit will be provided in the future.
 
-By this way, you can test your js file easily, without editing any code just for your test,
+By this way, you can test your js file easily,
+without editing any code of source of your project,
 and see the effort immediately.
 You do not need to boot the whole game, and do a lot of "click" actions to reach the page which will be tested.
 
 
-
+##### Reference
 ```script
 resCfg[jsRes.code04_js] = {
     ref : [jsRes.code03_js]
@@ -194,19 +235,44 @@ resCfg[jsRes.code05_js] = {
 ```
 
 In the above, `code03.js` is referenced by `code04.js`.
-Not matter what has been changed in `code03.js`, nothing will be changed, while the interface of `code03.js` is not changed
+
+Not matter what has been changed in `code03.js`, nothing will be changed, while the interface of `code03.js` is not changed.
 
 This will be good for team work, that everyone just care about the interfaces provided by others.
 
+`code04.js` do not need to care about what resources are used in `code03.js`, or what scripts are referenced in `code03.js`.
 
+
+##### Game Modules
 ```script
 resCfg.gameModules = [jsRes.code05_js, ...];
 ```
 
 This is for modules of game, such as home page, fighting and so on.
-The engine will load resources ans js for the modules by this config.
 
+The engine will load resources and js for the modules by this config.
+e.g. `code05.js` is the entry of fighting module, you press fight button to enter it (onClick function bellow):
+
+```script
+cc.loadGameModule(js.m1.code05_js, function(resArr){
+    cc.LoaderScene.preload(resArr, function(){
+        cc.Director.getInstance().replaceScene(...);
+    });
+});
+
+```
+
+And this config tells `cocos publish` which scripts should be compiled.
+The base config part of resCfg will be compiled by default.
+
+#### Last But Not Least
 `resCfg.js` looks so complex, but it is easy to be used step by step to improve the efficiency of coding.
+It is the core for uncoupling.
+
+`resCfg.js` tells the dependencies of modules and scripts, so that `cocos publish` can get all the scripts to be compiled.
+
+
+
 
 ## package.json
 Same as `package.json` of `npm`.

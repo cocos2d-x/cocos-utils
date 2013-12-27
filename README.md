@@ -202,7 +202,7 @@ MySprite.create = function(args){...};
 ```
 
 The `sprite` is used to test `code03.js`.
-Be sure the there is a class name `MySprite` in `code03.js`,
+Be sure the there is a class name named `MySprite` in `code03.js`,
 and the `MySprite` has a function called `create`.
 `args` of the config will be passed to the `MySprite.create` function.
 If the `create` function has no arguments, just keep `args` null.
@@ -225,7 +225,10 @@ Custom interface of test unit will be provided in the future.
 You can also write your test code in the `test` folder, such as a test js file named `code03Test.js`:
 
 ```script
-var MySpriteTest = cc.Layer.extend(...);
+var MySpriteTest = cc.Layer.extend({
+    //TODO write code to test code03.js
+    ...
+});
 MySpriteTest.create = function(args){...};
 ```
 
@@ -261,9 +264,9 @@ resCfg[jsRes.code05_js] = {
 };
 ```
 
-In the above, `code03.js` is referenced by `code04.js`.
+In the above, `code03.js` is referenced by `code04.js` and `code04.js` is referenced by `code05.js`.
 
-Not matter what has been changed in `code03.js`, nothing will be changed, while the interface of `code03.js` is not changed.
+Not matter what has been changed in `code04.js`, nothing will be changed, while the interface of `code03.js` is not changed.
 
 This will be good for team work, that everyone just care about the interfaces provided by others.
 
@@ -293,7 +296,8 @@ And this config tells `cocos publish` which scripts should be compiled.
 The base config part of resCfg will be compiled by default.
 
 #### Last But Not Least
-`resCfg.js` looks so complex, but it is easy to be used step by step to improve the efficiency of coding.
+`resCfg.js` looks so complex, but it is easy to be used step by step to improve the efficiency of coding,
+for you know which resources and js are required in this current js.
 It is the core for uncoupling.
 
 `resCfg.js` tells the dependencies of modules and scripts, so that `cocos publish` can get all the scripts to be compiled.

@@ -88,8 +88,8 @@ This is very important, for it tells us where the engine is.
 }
 ```
 `dirCfgs` is a config to tell the utils which dir to search.
-The item could be an object like {"dir" : "res/Normal"} or {"dir" : "res/Normal", "delPre" : "res/Normal"},
-or a string like "res/Normal" or "res/Normal->res/Normal".
+The item could be an object like `{"dir" : "res/Normal"}` or `{"dir" : "res/Normal", "delPre" : "res/Normal"}`,
+or a string like `"res/Normal"` or `"res/Normal->res/Normal"`.
 
 e.g. there are resources in `res` folder:
 

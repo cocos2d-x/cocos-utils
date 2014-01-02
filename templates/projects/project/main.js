@@ -19,31 +19,21 @@ var cocos2dApp = cc.Application.extend({
         var resourceSize = cc.size(480, 800);
         var designSize = cc.size(480, 800);
 
-        var searchPaths = [];
-        var resDirOrders = [];
-
-        searchPaths.push(config["resDir"]);
+        var normalResDir = "res/Normal", hdResDir = "res/HD";
         var fileUtils = cc.FileUtils.getInstance();
-        fileUtils.setSearchPaths(searchPaths);
-
         var platform = cc.Application.getInstance().getTargetPlatform();
         if (platform == cc.TARGET_PLATFORM.MOBILE_BROWSER) {
-            resDirOrders.push("HD");
-        }
-        else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
-            if (screenSize.height >= 800) {
-                resDirOrders.push("HD");
-            }
+            fileUtils.setSearchPaths([hdResDir]);
+        } else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
+            if (screenSize.height >= 800) fileUtils.setSearchPaths([hdResDir]);
             else {
                 resourceSize = cc.size(320, 480);
                 designSize = cc.size(320, 480);
-                resDirOrders.push("Normal");
+                fileUtils.setSearchPaths([normalResDir]);
             }
         }
 
-        fileUtils.setSearchResolutionsOrder(resDirOrders);
-
-        if(cc.AudioEngine) cc.AudioEngine.getInstance().setResPath(config["audioDir"]);
+        if(cc.AudioEngine) cc.AudioEngine.getInstance().setResPath("res/Audio");
 
         director.setContentScaleFactor(resourceSize.width / designSize.width);
 

@@ -113,6 +113,7 @@ This file is about config of `cocos` command.
 If there is something wrong while using `cocos` command, check this file first.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json).
+[怒看中文说明](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 
 ## resCfg

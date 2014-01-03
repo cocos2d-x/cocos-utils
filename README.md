@@ -114,7 +114,7 @@ If there is something wrong while using `cocos` command, check this file first.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json).
 
-![nv](assets/nv.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+![nu](assets/nu.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 
 ## resCfg
@@ -124,7 +124,7 @@ It is the core to load js and resources, just like what `resources.js` and `appF
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/resCfg).
 
-![nv](assets/nv.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/resCfg-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+![nu](assets/nu.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/resCfg-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 
 ## package.json
@@ -141,7 +141,7 @@ Also you can define your own test functions.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case).
 
-![nv](assets/nv.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+![nu](assets/nu.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 ## Notes
 Do not forget run `cocos genRes` if you add or delete resources, rename the resources or change the paths of the resources.
@@ -170,4 +170,4 @@ The code is clearer and smaller for developers.
 And I think it is a better way for developers to learn cocos2d-html5.
 Keep all modules of cocos2d-html5 in the same folder, boot your web server, then visit it(`index.html` in each module).
 
-![nv](assets/nv.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/Notes-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+![nu](assets/nu.gif)[怒看中文文档](https://github.com/SmallAiTT/cocos-utils/wiki/Notes-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)

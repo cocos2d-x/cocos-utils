@@ -33,6 +33,9 @@ cd your/workspace/
 cocos install
 ```
 
+Sometimes, you should type `sudo cocos install` in mac or lunix, 
+because `cocos install` calls `npm install`, and `npm` requires administrator permissions.
+
 ##### Create project of cocos2d-html5
 
 (under your workspace)

@@ -1,9 +1,7 @@
 cocos-utils
 ===========
 
-Cocos utilities for Cocos2d-html5 NPM supporting.
-
-A tool to help developers coding cocos2d-html5 easily.
+`cocos-utils` is a tool to support NPM branch of Cocos2d-html5 only, aims to help developers using cocos2d-html5 easily.
 
 
 ## Installing
@@ -170,7 +168,8 @@ a b.png  :  ab.png     //" " will be replaced by ""
 `cc.js` will be replaced with `cc4publish.js` when publishing.
 
 There are test cases in each modules of cocos2d-html5, which is quite different from the develop branch.
+The code is clearer and smaller for developers. 
 And I think it is a better way for developers to learn cocos2d-html5.
-Keep all modules of cocos2d-html5 in the same folder, boot your web server, then visit it.
+Keep all modules of cocos2d-html5 in the same folder, boot your web server, then visit it(`index.html` in each module).
 
 [怒看中文说明](https://github.com/SmallAiTT/cocos-utils/wiki/Notes-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)

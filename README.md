@@ -141,6 +141,8 @@ Also you can define your own test functions.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case).
 
+[怒看中文说明](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+
 ## Notes
 Do not forget run `cocos genRes` if you add or delete resources, rename the resources or change the paths of the resources.
 

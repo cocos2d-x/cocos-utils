@@ -164,3 +164,5 @@ a b.png  :  ab.png     //" " will be replaced by ""
 ```
 
 `cc.js` will be replaced with `cc4publish.js` when publishing.
+
+[怒看中文说明](https://github.com/SmallAiTT/cocos-utils/wiki/Notes-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)

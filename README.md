@@ -20,6 +20,9 @@ In this case, you can try this:
 npm --registry "http://registry.cnpmjs.org" install cocos-utils -g
 ```
 
+Sometimes, you should type `sudo npm install ...` in mac or lunix, 
+because `npm` requires administrator permissions.
+
 Type `cocos help` to check whether the installing is successful.
 
 

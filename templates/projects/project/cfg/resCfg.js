@@ -5,7 +5,7 @@ resCfg["[%name%]"] = {
     ref : []//Base references for the project.
 };
 
-resCfg.gameModules = [jsRes.myApp_js];//Game modules
+cc.gameModules = [jsRes.myApp_js];//Game modules
 
 resCfg[jsRes.myApp_js] = {
     //MyLayer.js is the reference of myApp.js.

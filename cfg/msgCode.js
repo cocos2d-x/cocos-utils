@@ -32,90 +32,96 @@ module.exports = {
 
 
 
-    DESC_VERSION : ["Show the version of cocos-utils."],
-    DESC_HELP : ["Show help for commands of cocos-utils."],
+    DESC_VERSION : ["Show the version of cocos-utils"],
+    DESC_HELP : ["Show help for commands of cocos-utils"],
     DESC_NEW : [
-        "Create a project.",
-        "e.g. cocos new helloworld.",
-        "The project name should not be null and have blank."
+        "Create a project",
+        "e.g. cocos new helloworld",
+        "The project name should not be null and have blank"
     ],
     DESC_BUILD : [
         "Build the project.",
-        "When the current path is your project path, type cocos build.",
-        "Otherwise, cocos build your/project/path/.",
-        "Or, cocos build \"your project/path/\"."
+        "When the current path is your project path, type cocos build",
+        "Otherwise, cocos build your/project/path/",
+        "Or, cocos build \"your project/path/\""
     ],
     DESC_PUBLISH : [
-        "Publish the project.",
-        "When the current path is your project path, type cocos publish.",
-        "Otherwise, cocos publish your/project/path/.",
-        "Or, cocos publish \"your project/path/\"."
+        "Publish the project",
+        "When the current path is your project path, type cocos publish",
+        "Otherwise, cocos publish your/project/path/",
+        "Or, cocos publish \"your project/path/\""
     ],
     DESC_GEN_RES : [
-        "Generate resources config for the project.",
-        "When the current path is your project path, type cocos genRes.",
-        "Otherwise, cocos genRes your/project/path/.",
-        "Or, cocos genRes \"your project/path/\"."
+        "Generate resources config for the project",
+        "When the current path is your project path, type cocos genRes",
+        "Otherwise, cocos genRes your/project/path/",
+        "Or, cocos genRes \"your project/path/\""
     ],
     DESC_GEN_JS_RES : [
-        "Generate js resources config for the project.",
-        "When the current path is your project path, type cocos genJsRes.",
-        "Otherwise, cocos genJsRes your/project/path/.",
-        "Or, cocos genJsRes \"your project/path/\"."
+        "Generate js resources config for the project",
+        "When the current path is your project path, type cocos genJsRes",
+        "Otherwise, cocos genJsRes your/project/path/",
+        "Or, cocos genJsRes \"your project/path/\""
     ],
     DESC_GEN_BASE_CFG : [
-        "Generate base js list for the project.",
-        "When the current path is your project path, type cocos genBaseCfg.",
-        "Otherwise, cocos genBaseCfg your/project/path/.",
-        "Or, cocos genBaseCfg \"your project/path/\"."
+        "Generate base js list for the project",
+        "When the current path is your project path, type cocos genBaseCfg",
+        "Otherwise, cocos genBaseCfg your/project/path/",
+        "Or, cocos genBaseCfg \"your project/path/\""
     ],
 
     DESC_OPT_O : [
         "Output path of generated file",
-        "e.g.  -o res/Normal.",
-        "Or  -o \"res Norma\"."
+        "e.g.  -o FileName",
+        "Or  -o \"File Name\""
     ],
 
     DESC_OPT_DIR_CFGS : [
-        "DirCfgs to generate config. Same as dirCfg in cocos.json.",
-        "e.g.  -dc res/Normal res/Music.",
-        "Or  -dc \"res/Normal->res/Normal\" \"res/Music->res/Music\"."
+        "DirCfgs to generate config, like dirCfgs in cocos.json",
+        "e.g.  -dc res/Normal res/Music",
+        "Or  -dc \"res/Normal->res/Normal\" \"res/Music->res/Music\""
+    ],
+
+    DESC_GEN_JS_RES_OPT_DIR_CFGS : [
+        "DirCfgs to generate config, like dirCfgs in cocos.json",
+        "e.g.  -dc src test",
+        "Or  -dc \"src->src\" \"test->test\""
     ],
 
     DESC_OPT_DIR : [
-        "Folder to put the project. p is short for path.",
-        "e.g.  -p a/b/c.",
-        "Or  -p \"a/b/c cc\"."
+        "Folder to put the project, p is short for path",
+        "e.g.  -p a/b/c",
+        "Or  -p \"a/b/c cc\""
     ],
     DESC_OPT_ENGINE_MODULES : [
-        "Path of engine modules. m is short for engine modules",
-        "e.g.  -m ../../a/b/node_modules.",
-        "Or  -m \"../../a/b/node_modules\"."
+        "Path of engine modules, m is short for engine modules",
+        "e.g.  -m ../../a/b/node_modules",
+        "Or  -m \"../../a/b/node_modules\""
     ],
     DESC_OPT_TEMP_NAME : [
-        "Template name which you want to use to create project.",
-        "t is short for template.",
-        "e.g.  -t myTemp."
+        "Template name which you want to use to create project",
+        "t is short for template",
+        "e.g.  -t myTemp"
     ],
 
     DESC_INSTALL : [
-        "Install all modules of cocos2d-html5 under current path.",
-        "Type cocos install,"
+        "Install all modules of cocos2d-html5 under current path",
+        "Type cocos install"
     ],
     DESC_OPT_REGISTRY : [
         "Use registry, default to be \"http://registry.cnpmjs.org\"",
-        "e.g.  -r.",
-        "Or  -r \"http://registry.cnpmjs.org\"."
+        "e.g.  -r",
+        "Or  -r \"http://registry.cnpmjs.org\""
     ],
 
     DESC_OPT_VERSION : [
         "Use version, default to be \"*\"",
-        "e.g.  -v 2.2.2.",
-        "Or  -r \"2.2.2\"."
+        "e.g.  -v 2.2.2",
+        "Or  -r \"2.2.2\""
     ],
 
     DESC_UPDATE : [
-        "Update all modules of cocos2d-html5 under current path.",
-        "Type cocos update,"
+        "Update all modules of cocos2d-html5 under current path",
+        "Type cocos update."
     ]
 };

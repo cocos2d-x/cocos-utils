@@ -59,7 +59,12 @@ cocos build
 ```
 
 ##### Visit dev version
-* Be sure that your project has been published in a webserver, then visit `http://serverhost:port/your/project/path/index.html` in your browser.
+Be sure that your project and modules of cocos2d-html5 have been published in a webServer, 
+then visit `http://serverhost:port/your/project/path/index.html` in your browser. 
+
+Pay attention to this, modules of cocos2d-html5 should also been published in the webServer.
+
+Open it with FireFox if you have not published them in a webServer.
 
 ##### Publishing
 
@@ -70,7 +75,10 @@ cocos publish
 ```
 
 ##### Visit release version
-* Be sure that your project has been published in a webserver, then visit `http://serverhost:port/your/project/path/release.html` in your browser.
+Be sure that your project has been published in a webServer, 
+then visit `http://serverhost:port/your/project/path/release.html` in your browser. 
+
+Open it with FireFox if you have not published them in a webServer.
 
 ## Structure of project
 

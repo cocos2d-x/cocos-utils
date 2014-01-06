@@ -16,6 +16,8 @@ module.exports = {
     OPT_FULL : "-full",
     OPT_O : "-o",
     OPT_DC : "-dc",
+    OPT_REGISTRY : "-r",
+    OPT_VERSION : "-v",
 
     TEMP_NAME : "tempName",
     DIR : "dir",

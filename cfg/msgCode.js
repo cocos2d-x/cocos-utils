@@ -99,16 +99,23 @@ module.exports = {
     ],
 
     DESC_INSTALL : [
-        "Install all modules of cocos2d-html5.",
-        "Type cocos install,",
-        "cocos install path/you/want/to/put/.",
-        "Or, cocos install \"path/you/want to/put/\"."
+        "Install all modules of cocos2d-html5 under current path.",
+        "Type cocos install,"
+    ],
+    DESC_OPT_REGISTRY : [
+        "Use registry, default to be \"http://registry.cnpmjs.org\"",
+        "e.g.  -r.",
+        "Or  -r \"http://registry.cnpmjs.org\"."
+    ],
+
+    DESC_OPT_VERSION : [
+        "Use version, default to be \"*\"",
+        "e.g.  -v 2.2.2.",
+        "Or  -r \"2.2.2\"."
     ],
 
     DESC_UPDATE : [
-        "Update all modules of cocos2d-html5.",
-        "Type cocos update,",
-        "cocos update path/you/want/to/put/.",
-        "Or, cocos update \"path/you/want to/put/\"."
+        "Update all modules of cocos2d-html5 under current path.",
+        "Type cocos update,"
     ]
 };

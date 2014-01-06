@@ -3,6 +3,7 @@ cocos-utils
 
 `cocos-utils` is a tool to support NPM branch of Cocos2d-html5 only, aims to help developers using cocos2d-html5 easily.
 
+[中文详细说明](https://github.com/SmallAiTT/cocos-utils/wiki/cocos-utils-%E4%B8%AD%E6%96%87%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E)
 
 ## Installing
 * Install `nodejs`...
@@ -137,8 +138,6 @@ If there is something wrong while using `cocos` command, check this file first.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json).
 
-[中文详细说明](https://github.com/SmallAiTT/cocos-utils/wiki/cocos.json-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
-
 
 ## resCfg
 This is the main config for the dependencies of the project.
@@ -146,8 +145,6 @@ It is the core to load js and resources, just like what `resources.js` and `appF
 `cc.js` takes place of `jsLoader.js`, so `jsLoader` do not work in this npm branch.
 
 [Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/resCfg).
-
-[中文详细说明](https://github.com/SmallAiTT/cocos-utils/wiki/resCfg-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 
 ## package.json
@@ -158,13 +155,11 @@ If you add or delete a module (dependencies in package.json or cocos.json),
 you should run `cocos build` or `cocos genBaseCfg` once more.
 
 
-## Test Case
+## Unit Test
 By default, we have provided some test functions for you.
 Also you can define your own test functions.
 
-[Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case).
-
-[中文详细说明](https://github.com/SmallAiTT/cocos-utils/wiki/Test-Case-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+[Click here to see more details](https://github.com/SmallAiTT/cocos-utils/wiki/Unit-Test).
 
 ## Notes
 Do not forget run `cocos genRes` if you add or delete resources, rename the resources or change the paths of the resources.
@@ -192,5 +187,3 @@ There are test cases in each modules of cocos2d-html5, which is quite different 
 The code is clearer and smaller for developers. 
 And I think it is a better way for developers to learn cocos2d-html5.
 Keep all modules of cocos2d-html5 in the same folder, boot your web server, then visit it(`index.html` in each module).
-
-[中文详细说明](https://github.com/SmallAiTT/cocos-utils/wiki/Notes-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)

@@ -7,6 +7,9 @@ cocos-utils
 ## Installing
 * Install `nodejs`...
 * Install `ant`...
+
+The function `cocos publish` requires `ant`, if you don\`t want to use `cocos publish`, you needn\`t install `ant`.
+
 * Then type:
 
 ```bash
@@ -19,6 +22,10 @@ In this case, you can try this:
 ```bash
 npm --registry "http://registry.cnpmjs.org" install cocos-utils -g
 ```
+
+And when using `cocos install` and `cocos update`, you may need to add an option, such as `cocos install -r`, 
+or `cocos install -r "http://registry.cnpmjs.org"`. The `-r` option default to be `http://registry.cnpmjs.org`.
+
 
 Sometimes, you should type `sudo npm install ...` in mac or lunix, 
 because `npm` requires administrator permissions.
@@ -38,6 +45,8 @@ cocos install
 
 Sometimes, you should type `sudo cocos install` in mac or lunix, 
 because `cocos install` calls `npm install`, and `npm` requires administrator permissions.
+
+Sometimes, you may need to use `cocos install -r` if you are in China.
 
 ##### Create project of cocos2d-html5
 

@@ -8,7 +8,7 @@ cocos-utils
 * Install `nodejs`...
 * Install `ant`...
 
-The function `cocos publish` requires `ant`, if you don\`t want to use `cocos publish`, you needn\`t install `ant`.
+The function `cocos publish` requires `ant`, if you don\`t want to use `cocos publish`, you don\`t need to install `ant`.
 
 * Then type:
 

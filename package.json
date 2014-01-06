@@ -1,0 +1,31 @@
+{
+    "name": "cocos-utils",
+    "description": "Utils for cocos2d-html5",
+    "version": "1.0.0",
+    "author": {
+        "name": "cocos2d-html5",
+        "email": "linshun@cocos2d-x.org"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {},
+    "keywords": [
+        "CocosUtils",
+        "cocos-utils",
+        "cocos",
+        "utils",
+        "web",
+        "game",
+        "html5",
+        "app",
+        "api"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cocos2d-x/cocos-utils.git"
+    },
+    "main": "index",
+    "bin": {
+        "cocos": "./bin/cocos"
+    }
+}
